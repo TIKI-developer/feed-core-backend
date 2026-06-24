@@ -15,9 +15,9 @@ public class Dictionary
         _words = words?.ToHashSet() ?? [];
     }
 
-    public static Dictionary Create(string name)
+    public static Dictionary Create(string name, ICollection<Word>? words = null)
     {
-        return new Dictionary(Guid.NewGuid(), name, new HashSet<Word>());
+        return new Dictionary(Guid.NewGuid(), name, words ?? []);
     }
 
     public static Dictionary Restore(Guid id, string name, ICollection<Word> words)
