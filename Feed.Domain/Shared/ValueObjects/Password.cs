@@ -1,6 +1,7 @@
 ﻿using Feed.Domain.Shared.Interfaces;
 
 namespace Feed.Domain.Shared.ValueObjects;
+
 public sealed record Password
 {
     public string Hash => _hash;
