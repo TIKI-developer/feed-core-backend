@@ -1,4 +1,4 @@
-﻿namespace Feed.Domain.Users;
+﻿namespace Feed.Domain.Users.Entities;
 
 public record Permission
 {

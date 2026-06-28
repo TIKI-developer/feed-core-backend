@@ -1,4 +1,4 @@
-﻿namespace Feed.Domain.Users;
+﻿namespace Feed.Domain.Users.Entities;
 
 public class Role
 {
@@ -27,26 +27,19 @@ public class Role
         return new Role(name, permissions);
     }
 
-    public void AddPermission(Permission permission)
-    {
-        if (_permissions.Contains(permission))
-            return;
-
-        _permissions.Add(permission);
-    }
-
-    public void RemovePermission(Permission permission)
-    {
-        _permissions.Remove(permission);
-    }
-
     public bool HasPermission(Permission permission)
     {
         return _permissions.Contains(permission);
     }
 
-    public void Update(string? name)
+    public void Update(string? name, ICollection<Permission>? permissions)
     {
         _name = name ?? _name;
+
+        if (permissions != null)
+        {
+            _permissions.Clear();
+            _permissions.UnionWith(permissions);
+        }
     }
 }

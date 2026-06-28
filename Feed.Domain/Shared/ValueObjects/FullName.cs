@@ -7,7 +7,7 @@ public sealed record FullName(string? FirstName, string? LastName, string? Patro
         return new FullName(firstName?.Trim(), lastName?.Trim(), patronymic?.Trim());
     }
 
-    public string GetFullName() => $"{FirstName} {LastName} {Patronymic}";
+    public string Value => $"{FirstName} {LastName} {Patronymic}";
 
-    public override string ToString() => GetFullName();
+    public override string ToString() => Value;
 }

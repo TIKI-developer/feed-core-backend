@@ -1,4 +1,4 @@
-﻿namespace Feed.Domain.Publications;
+﻿namespace Feed.Domain.Publications.Entities;
 
 public abstract class SourceProvider
 {

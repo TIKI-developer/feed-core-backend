@@ -1,8 +1,9 @@
-﻿using Feed.Domain.Shared.ValueObjects;
+﻿using Feed.Domain.Shared.Interfaces;
+using Feed.Domain.Shared.ValueObjects;
 
-namespace Feed.Domain.Users;
+namespace Feed.Domain.Users.Entities;
 
-public class User
+public sealed class User
 {
     public Guid Id { get; private set; }
     public string Name { get; private set; }
@@ -31,25 +32,35 @@ public class User
         _roles = roles?.ToHashSet() ?? [];
     }
 
-    public static User Create(string name, Password password, Email email, Profile profile)
+    public static User Create
+        (
+            string name,
+            Password password,
+            Email email,
+            Profile profile
+        )
     {
         return new User(Guid.NewGuid(), name, password, email, profile);
     }
 
-    public static User Restore(Guid id, string name, Password password, Email email, Profile profile)
+    public static User Restore
+        (
+            Guid id,
+            string name,
+            Password password,
+            Email email,
+            Profile profile
+        )
     {
         return new User(id, name, password, email, profile);
     }
 
-    public bool ChangePassword(Password currentPassword, Password newPassword)
+    public void ChangePassword(string currentPasswordRaw, Password newPassword, IHashVerifier hashVerifier)
     {
-        if (false)
-            // TODO: Implement password verification logic here
-            return false; 
+        if (!hashVerifier.Verify(currentPasswordRaw, newPassword.Hash))
+            throw new Exception("Password is incorrect.");
 
         Password = newPassword;
-
-        return true;
     }
 
     public void ChangeEmail(Email newEmail)
