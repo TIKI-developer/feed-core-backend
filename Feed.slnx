@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="Feed.Application/Feed.Application.csproj" Id="e846e5f4-3715-4885-b163-20f0600e8a30" />
   <Project Path="Feed.Domain/Feed.Domain.csproj" />
+  <Project Path="Feed.Persistence/Feed.Persistence.csproj" Id="9bec02fc-f836-46a5-a8b0-92aa8f5bbaf7" />
 </Solution>
