@@ -1,0 +1,6 @@
+@Feed.WebApi_HostAddress = http://localhost:5245
+
+GET {{Feed.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
