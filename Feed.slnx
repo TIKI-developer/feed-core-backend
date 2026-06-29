@@ -1,6 +1,12 @@
 <Solution>
-  <Project Path="src/Feed.Application/Feed.Application.csproj" Id="e846e5f4-3715-4885-b163-20f0600e8a30" />
-  <Project Path="src/Feed.Domain/Feed.Domain.csproj" />
-  <Project Path="src/Feed.WebApi/Feed.WebApi.csproj" Id="8725b430-f1c8-4e2c-aedf-12104b9c2c25" />
-  <Project Path="src/Feed.Persistence/Feed.Persistence.csproj" Id="9bec02fc-f836-46a5-a8b0-92aa8f5bbaf7" />
+  <Folder Name="/Core/">
+    <Project Path="src/Feed.Application/Feed.Application.csproj" Id="e846e5f4-3715-4885-b163-20f0600e8a30" />
+    <Project Path="src/Feed.Domain/Feed.Domain.csproj" />
+  </Folder>
+  <Folder Name="/Infrastructure/">
+    <Project Path="src/Feed.Persistence/Feed.Persistence.csproj" Id="9bec02fc-f836-46a5-a8b0-92aa8f5bbaf7" />
+  </Folder>
+  <Folder Name="/Presentation/">
+    <Project Path="src/Feed.WebApi/Feed.WebApi.csproj" Id="8725b430-f1c8-4e2c-aedf-12104b9c2c25" />
+  </Folder>
 </Solution>
