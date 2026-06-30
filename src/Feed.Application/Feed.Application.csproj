@@ -20,7 +20,6 @@
     <Folder Include="UseCases\Dictionaries\" />
     <Folder Include="UseCases\Publications\" />
     <Folder Include="UseCases\Notifications\" />
-    <Folder Include="UseCases\Users\Commands\Register\" />
     <Folder Include="UseCases\Users\Commands\Login\" />
     <Folder Include="UseCases\Users\Commands\Logout\" />
     <Folder Include="UseCases\Users\Commands\UpdateProfile\" />
@@ -37,6 +36,10 @@
     <Folder Include="UseCases\Users\Query\GetUserList\" />
     <Folder Include="UseCases\Users\Query\GetRoleList\" />
     <Folder Include="UseCases\Users\Query\GetRole\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Feed.Domain\Feed.Domain.csproj" />
   </ItemGroup>
 
 </Project>

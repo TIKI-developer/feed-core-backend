@@ -1,4 +1,6 @@
 ﻿using Feed.Application.Common;
+using Feed.Application.Interfaces;
+using Feed.Application.Service;
 using FluentValidation;
 using Mediator;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +17,8 @@ public static class DependencyInjection
         {
             options.ServiceLifetime = ServiceLifetime.Scoped;
         });
+
+        services.AddScoped<IUserUniquenessChecker, UserUniquenessChecker>();
 
         return services;
     }
