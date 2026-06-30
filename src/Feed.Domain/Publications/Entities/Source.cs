@@ -34,7 +34,7 @@ public class Source
     {
         Name = name;
         Timestamps.Touch();
-    }   
+    }
 
     public IEnumerable<Publication> GetNewPublications()
     {

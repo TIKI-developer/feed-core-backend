@@ -8,8 +8,8 @@ public sealed class User
     public Guid Id { get; private set; }
     public string Name { get; private set; }
     public Password Password { get; private set; }
-    public Email Email { get; private set; }
-    public Profile Profile { get; private set; }
+    public Email? Email { get; private set; }
+    public Profile? Profile { get; private set; }
     public IReadOnlyCollection<Guid> Roles => _roles.ToList().AsReadOnly();
 
     private readonly HashSet<Guid> _roles;
@@ -19,8 +19,8 @@ public sealed class User
             Guid id,
             string name,
             Password password,
-            Email email,
-            Profile profile,
+            Email? email,
+            Profile? profile,
             ICollection<Guid>? roles = null
         )
     {
@@ -36,8 +36,8 @@ public sealed class User
         (
             string name,
             Password password,
-            Email email,
-            Profile profile
+            Email? email = null,
+            Profile? profile = null
         )
     {
         return new User(Guid.NewGuid(), name, password, email, profile);
@@ -48,11 +48,12 @@ public sealed class User
             Guid id,
             string name,
             Password password,
-            Email email,
-            Profile profile
+            Email? email,
+            Profile? profile,
+            ICollection<Guid>? roles
         )
     {
-        return new User(id, name, password, email, profile);
+        return new User(id, name, password, email, profile, roles);
     }
 
     public void ChangePassword(string currentPasswordRaw, Password newPassword, IHashVerifier hashVerifier)
@@ -84,16 +85,16 @@ public sealed class User
     {
         if (!Roles.Any(r => r == id))
             throw new Exception($"User does not have the role with ID '{id}'.");
-        
+
         _roles.Remove(id);
     }
 }
 
 public sealed record Profile
 {
-    public FullName FullName { get; private set; }
+    public FullName? FullName { get; private set; }
 
-    public Profile(FullName fullName)
+    public Profile(FullName? fullName)
     {
         FullName = fullName;
     }
