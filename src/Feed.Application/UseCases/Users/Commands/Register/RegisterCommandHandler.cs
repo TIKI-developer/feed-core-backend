@@ -23,11 +23,10 @@ internal sealed class RegisterCommandHandler
         }
 
         var newUser = User.Create(command.Name, Password.Create(command.Password, stringHasher));
+        var accessToken = accessTokenService.Generate(newUser);
 
         await userRepository.AddAsync(newUser, cancellationToken);
         await userRepository.SaveChangesAsync(cancellationToken);
-
-        var accessToken = accessTokenService.Generate(newUser);
 
         return new RegisterCommandResult { AccessToken = accessToken };
     }
