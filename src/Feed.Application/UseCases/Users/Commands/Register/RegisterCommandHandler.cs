@@ -1,4 +1,5 @@
-﻿using Feed.Application.Interfaces;
+﻿using Feed.Application.Exceptions;
+using Feed.Application.Interfaces;
 using Feed.Domain.Shared.Interfaces;
 using Feed.Domain.Shared.ValueObjects;
 using Feed.Domain.Users.Entities;
@@ -19,7 +20,7 @@ internal sealed class RegisterCommandHandler
     {
         if (!await userUniquenessChecker.IsUniqueByName(command.Name, cancellationToken))
         {
-            throw new Exception("User with this name already exists.");
+            throw new AlreadyExist(nameof(User), command.Name);
         }
 
         var newUser = User.Create(command.Name, Password.Create(command.Password, stringHasher));
