@@ -9,6 +9,7 @@ public static class RegisterResponseMapping
     {
         return new RegisterResponse
         {
+            AccessToken = result.AccessToken
         };
     }
 }

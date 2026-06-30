@@ -2,5 +2,5 @@
 
 public readonly record struct RegisterCommandResult
 {
-
+    public required string AccessToken { get; init; }
 }

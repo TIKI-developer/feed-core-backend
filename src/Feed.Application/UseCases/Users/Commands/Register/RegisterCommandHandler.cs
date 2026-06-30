@@ -9,7 +9,8 @@ namespace Feed.Application.UseCases.Users.Commands.Register;
 internal sealed class RegisterCommandHandler
     (IUserRepository userRepository,
     IUserUniquenessChecker userUniquenessChecker,
-    IStringHasher stringHasher)
+    IStringHasher stringHasher,
+    IAccessTokenService accessTokenService)
     :
     ICommandHandler<RegisterCommand, RegisterCommandResult>
 {
@@ -26,7 +27,9 @@ internal sealed class RegisterCommandHandler
         await userRepository.AddAsync(newUser, cancellationToken);
         await userRepository.SaveChangesAsync(cancellationToken);
 
-        return new RegisterCommandResult();
+        var accessToken = accessTokenService.Generate(newUser);
+
+        return new RegisterCommandResult { AccessToken = accessToken };
     }
 }
 

@@ -1,4 +1,5 @@
-﻿using Feed.Domain.Shared.Interfaces;
+﻿using Feed.Application.Interfaces;
+using Feed.Domain.Shared.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,6 +11,10 @@ public static class DependencyInjection
     {
         services.AddScoped<IStringHasher, PasswordHasher>();
         services.AddScoped<IHashVerifier, PasswordHasher>();
+        services.AddScoped<IAccessTokenService, AccessTokenService>();
+
+        services.Configure<AccessTokenOptions>(options =>
+        configuration.GetSection(nameof(AccessTokenOptions)).Bind(options));
 
         return services;
     }
