@@ -1,7 +1,6 @@
 ﻿using Feed.Application.Interfaces;
 using Feed.Domain.Users.Entities;
 using Feed.Persistence.Mappings;
-using Feed.Shared;
 using Microsoft.EntityFrameworkCore;
 
 namespace Feed.Persistence.Repositories;
