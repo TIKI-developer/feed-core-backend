@@ -32,4 +32,3 @@ internal sealed class RegisterCommandHandler
         return new RegisterCommandResult { AccessToken = accessToken };
     }
 }
-
