@@ -15,11 +15,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Requests\" />
-    <Folder Include="Responses\" />
-    <Folder Include="Mappings\" />
     <Folder Include="Interfaces\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Feed.Security\Feed.Security.csproj" />
+    <ProjectReference Include="..\Feed.Application\Feed.Application.csproj" />
+    <ProjectReference Include="..\Feed.Persistence\Feed.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
