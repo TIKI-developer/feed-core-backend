@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Feed.Application.Interfaces;
+using Feed.Persistence.Interfaces;
+using Feed.Persistence.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,6 +21,9 @@ public static class DependencyInjection
                 o.EnableRetryOnFailure(5, TimeSpan.FromSeconds(5), null);
             });
         });
+
+        services.AddScoped<IDbInitializer, DbInitializer>();
+        services.AddScoped<IUserRepository, UserRepository>();
 
         return services;
     }

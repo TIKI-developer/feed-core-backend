@@ -14,10 +14,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Entities\" />
-    <Folder Include="Repositories\" />
-    <Folder Include="Mappings\" />
-    <Folder Include="Configurations\" />
+    <ProjectReference Include="..\..\Feed.Shared\Feed.Shared.csproj" />
+    <ProjectReference Include="..\Feed.Application\Feed.Application.csproj" />
   </ItemGroup>
 
 </Project>
