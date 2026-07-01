@@ -11,7 +11,7 @@
 	<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.9" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\src\Feed.Application\Feed.Application.csproj" />
-    <ProjectReference Include="..\src\Feed.Domain\Feed.Domain.csproj" />
+    <ProjectReference Include="..\Feed.Application\Feed.Application.csproj" />
+    <ProjectReference Include="..\Feed.Domain\Feed.Domain.csproj" />
   </ItemGroup>
 </Project>

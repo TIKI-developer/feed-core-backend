@@ -19,9 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Feed.Security\Feed.Security.csproj" />
     <ProjectReference Include="..\Feed.Application\Feed.Application.csproj" />
     <ProjectReference Include="..\Feed.Persistence\Feed.Persistence.csproj" />
+    <ProjectReference Include="..\Feed.Security\Feed.Security.csproj" />
   </ItemGroup>
 
 </Project>

@@ -4,8 +4,8 @@
     <Project Path="src/Feed.Domain/Feed.Domain.csproj" />
   </Folder>
   <Folder Name="/Infrastructure/">
-    <Project Path="Feed.Security/Feed.Security.csproj" Id="bc290b25-804c-4650-a912-d1bcd7e7200d" />
-    <Project Path="Feed.Shared/Feed.Shared.csproj" Id="db72dafd-64ec-47ba-a1ad-53b1410f7c4a" />
+    <Project Path="src/Feed.Security/Feed.Security.csproj" Id="bc290b25-804c-4650-a912-d1bcd7e7200d" />
+    <Project Path="src/Feed.Shared/Feed.Shared.csproj" Id="db72dafd-64ec-47ba-a1ad-53b1410f7c4a" />
     <Project Path="src/Feed.Persistence/Feed.Persistence.csproj" Id="9bec02fc-f836-46a5-a8b0-92aa8f5bbaf7" />
   </Folder>
   <Folder Name="/Presentation/">
