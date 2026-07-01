@@ -1,0 +1,51 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: simul
+      POSTGRES_PASSWORD: 12345
+    ports:
+      - "5432"
+    volumes:
+      - pg_data:/opt/feed/db/data
+    networks:
+      - feed-network
+
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: development
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../src:/repo/src
+      - /repo/src/Simul.IdentityService.WebApi/obj
+      - /repo/src/Simul.IdentityService.WebApi/bin
+      - /repo/src/Simul.IdentityService.Application/obj
+      - /repo/src/Simul.IdentityService.Application/bin
+      - /repo/src/Simul.IdentityService.Domain/obj
+      - /repo/src/Simul.IdentityService.Domain/bin
+      - /repo/src/Simul.IdentityService.Persistence/obj
+      - /repo/src/Simul.IdentityService.Persistence/bin
+      - /repo/src/Simul.IdentityService.Caching/obj
+      - /repo/src/Simul.IdentityService.Caching/bin
+      - /repo/src/Simul.IdentityService.Security/obj
+      - /repo/src/Simul.IdentityService.Security/bin
+    depends_on:
+      - db
+    networks:
+      - feed-network
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DbConnection=Server=db;Port=5432;Database=simul_identity_microservice;Username=simul;Password=12345;
+      - Redis__ConnectionString=cache:6379
+
+volumes:
+  pg_data:
+  redis_data:
+
+networks:
+  feed-network:
+    driver: bridge
