@@ -1,51 +1,57 @@
 services:
+  # Сервис базы данных Postgres
   db:
-    image: postgres
+    image: postgres:15-alpine
     restart: always
     environment:
-      POSTGRES_USER: simul
-      POSTGRES_PASSWORD: 12345
+      POSTGRES_USER: feed_user
+      POSTGRES_PASSWORD: feed_password_123
+      POSTGRES_DB: feed_db
     ports:
-      - "5432"
+      - "5432:5432"
     volumes:
-      - pg_data:/opt/feed/db/data
+      - pg_data:/var/lib/postgresql/data
     networks:
       - feed-network
 
+  # Сервис бэкенда
   backend:
     build:
-      context: ..
-      dockerfile: docker/Dockerfile
-      target: development
+      context: ..          # Поднимаемся на уровень выше (в корень проекта)
+      dockerfile: docker/Dockerfile  # Путь к Dockerfile относительно context
+      target: development   # Используем development режим
     ports:
-      - "8080:8080"
+      - "8080:8080"        # Открываем порт для доступа к сайту
     volumes:
+      # Монтируем папку src для hot reload
       - ../src:/repo/src
-      - /repo/src/Simul.IdentityService.WebApi/obj
-      - /repo/src/Simul.IdentityService.WebApi/bin
-      - /repo/src/Simul.IdentityService.Application/obj
-      - /repo/src/Simul.IdentityService.Application/bin
-      - /repo/src/Simul.IdentityService.Domain/obj
-      - /repo/src/Simul.IdentityService.Domain/bin
-      - /repo/src/Simul.IdentityService.Persistence/obj
-      - /repo/src/Simul.IdentityService.Persistence/bin
-      - /repo/src/Simul.IdentityService.Caching/obj
-      - /repo/src/Simul.IdentityService.Caching/bin
-      - /repo/src/Simul.IdentityService.Security/obj
-      - /repo/src/Simul.IdentityService.Security/bin
+      # Эти volume'ы нужны, чтобы файлы сборки не конфликтовали
+      - /repo/src/Feed.WebApi/obj
+      - /repo/src/Feed.WebApi/bin
+      - /repo/src/Feed.Application/obj
+      - /repo/src/Feed.Application/bin
+      - /repo/src/Feed.Domain/obj
+      - /repo/src/Feed.Domain/bin
+      - /repo/src/Feed.Persistence/obj
+      - /repo/src/Feed.Persistence/bin
+      - /repo/src/Feed.Security/obj
+      - /repo/src/Feed.Security/bin
+      - /repo/src/Feed.Shared/obj
+      - /repo/src/Feed.Shared/bin
     depends_on:
       - db
     networks:
       - feed-network
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ConnectionStrings__DbConnection=Server=db;Port=5432;Database=simul_identity_microservice;Username=simul;Password=12345;
-      - Redis__ConnectionString=cache:6379
+      # Строка подключения к БД (используем имя сервиса "db")
+      - ConnectionStrings__DbConnection=Server=db;Port=5432;Database=feed_db;Username=feed_user;Password=feed_password_123;
 
+# Тома для хранения данных
 volumes:
   pg_data:
-  redis_data:
 
+# Сеть для общения контейнеров
 networks:
   feed-network:
     driver: bridge

@@ -1,72 +1,83 @@
-# ---------- base runtime ----------
+# ---------- Базовый образ для запуска (Runtime) ----------
 FROM mcr.microsoft.com/dotnet/aspnet:10.0.0 AS base
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
-# ---------- build ----------
+# ---------- Этап сборки (Build) ----------
 FROM mcr.microsoft.com/dotnet/sdk:10.0.100 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /repo
 
-COPY ["Simul.IdentityService.slnx", "."]
-COPY ["src/Simul.IdentityService.WebApi/Simul.IdentityService.WebApi.csproj",           "src/Simul.IdentityService.WebApi/"]
-COPY ["src/Simul.IdentityService.Application/Simul.IdentityService.Application.csproj", "src/Simul.IdentityService.Application/"]
-COPY ["src/Simul.IdentityService.Domain/Simul.IdentityService.Domain.csproj",           "src/Simul.IdentityService.Domain/"]
-COPY ["src/Simul.IdentityService.Persistence/Simul.IdentityService.Persistence.csproj", "src/Simul.IdentityService.Persistence/"]
-COPY ["src/Simul.IdentityService.Caching/Simul.IdentityService.Caching.csproj",         "src/Simul.IdentityService.Caching/"]
-COPY ["src/Simul.IdentityService.Security/Simul.IdentityService.Security.csproj",       "src/Simul.IdentityService.Security/"]
+# Копируем файл решения
+COPY ["Feed.slnx", "."]
 
-RUN dotnet restore "Simul.IdentityService.slnx"
+# Копируем все .csproj файлы проектов
+COPY ["src/Feed.WebApi/Feed.WebApi.csproj", "src/Feed.WebApi/"]
+COPY ["src/Feed.Application/Feed.Application.csproj", "src/Feed.Application/"]
+COPY ["src/Feed.Domain/Feed.Domain.csproj", "src/Feed.Domain/"]
+COPY ["src/Feed.Persistence/Feed.Persistence.csproj", "src/Feed.Persistence/"]
+COPY ["src/Feed.Security/Feed.Security.csproj", "src/Feed.Security/"]
+COPY ["src/Feed.Shared/Feed.Shared.csproj", "src/Feed.Shared/"]
 
+# Восстанавливаем зависимости
+RUN dotnet restore "Feed.slnx"
+
+# Копируем ВЕСЬ остальной код
 COPY . .
 
-WORKDIR "/repo/src/Simul.IdentityService.WebApi"
+# Переходим в папку с WebApi проектом
+WORKDIR "/repo/src/Feed.WebApi"
 
-# ---------- publish ----------
+# ---------- Этап публикации (Publish) ----------
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "Simul.IdentityService.WebApi.csproj" \
+RUN dotnet publish "Feed.WebApi.csproj" \
     -c $BUILD_CONFIGURATION \
     --no-restore \
     -o /app/publish \
     /p:UseAppHost=false
 
-# ---------- production ----------
+# ---------- Финальный образ для PRODUCTION ----------
 FROM base AS production
 WORKDIR /app
 
+# Создаем пользователя для безопасности
 RUN adduser --disabled-password --gecos "" appuser \
     && chown -R appuser:appuser /app
 USER appuser
 
+# Копируем собранное приложение
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Simul.IdentityService.WebApi.dll"]
+ENTRYPOINT ["dotnet", "Feed.WebApi.dll"]
 
-# ---------- development ----------
+# ---------- Образ для РАЗРАБОТКИ (Development) ----------
 FROM mcr.microsoft.com/dotnet/sdk:10.0.100 AS development
 WORKDIR /repo
 EXPOSE 8080
 EXPOSE 8081
 
-# Копируем .csproj и restore — пакеты скачиваются в ~/.nuget/packages внутри образа.
-# obj/ при этом создаётся в /repo/src, но volume перезапишет эту папку при старте —
-# это нормально: dotnet watch сам восстановит obj/ используя закэшированные пакеты.
-COPY ["Simul.IdentityService.slnx", "."]
-COPY ["src/Simul.IdentityService.WebApi/Simul.IdentityService.WebApi.csproj",           "src/Simul.IdentityService.WebApi/"]
-COPY ["src/Simul.IdentityService.Application/Simul.IdentityService.Application.csproj", "src/Simul.IdentityService.Application/"]
-COPY ["src/Simul.IdentityService.Domain/Simul.IdentityService.Domain.csproj",           "src/Simul.IdentityService.Domain/"]
-COPY ["src/Simul.IdentityService.Persistence/Simul.IdentityService.Persistence.csproj", "src/Simul.IdentityService.Persistence/"]
-COPY ["src/Simul.IdentityService.Caching/Simul.IdentityService.Caching.csproj",         "src/Simul.IdentityService.Caching/"]
-COPY ["src/Simul.IdentityService.Security/Simul.IdentityService.Security.csproj",       "src/Simul.IdentityService.Security/"]
+# Копируем файл решения
+COPY ["Feed.slnx", "."]
 
-RUN dotnet restore "Simul.IdentityService.slnx"
+# Копируем .csproj файлы
+COPY ["src/Feed.WebApi/Feed.WebApi.csproj", "src/Feed.WebApi/"]
+COPY ["src/Feed.Application/Feed.Application.csproj", "src/Feed.Application/"]
+COPY ["src/Feed.Domain/Feed.Domain.csproj", "src/Feed.Domain/"]
+COPY ["src/Feed.Persistence/Feed.Persistence.csproj", "src/Feed.Persistence/"]
+COPY ["src/Feed.Security/Feed.Security.csproj", "src/Feed.Security/"]
+COPY ["src/Feed.Shared/Feed.Shared.csproj", "src/Feed.Shared/"]
 
+# Восстанавливаем зависимости
+RUN dotnet restore "Feed.slnx"
+
+# Создаем том для кода
 VOLUME ["/repo/src"]
 
-WORKDIR "/repo/src/Simul.IdentityService.WebApi"
+WORKDIR "/repo/src/Feed.WebApi"
 
+# Устанавливаем переменную окружения для режима разработки
 ENV ASPNETCORE_ENVIRONMENT=Development
 
-# Без --no-restore: watch перегенерирует obj/ из кэша ~/.nuget/packages в образе
+# Запускаем с "горячей перезагрузкой"
 CMD ["dotnet", "watch", "run", "--urls=http://0.0.0.0:8080"]
