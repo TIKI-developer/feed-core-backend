@@ -1,0 +1,50 @@
+services:
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 3cLXPgQVnZtFQfB+xRcOPHD8ozq7Q9BW2YZYUBM6gd4=
+      POSTGRES_DB: feed
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - feed-network
+
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: development
+    ports:
+      - "8080:8080"
+    volumes:
+      - ../src:/repo/src
+      - /repo/src/Feed.WebApi/obj
+      - /repo/src/Feed.WebApi/bin
+      - /repo/src/Feed.Application/obj
+      - /repo/src/Feed.Application/bin
+      - /repo/src/Feed.Domain/obj
+      - /repo/src/Feed.Domain/bin
+      - /repo/src/Feed.Persistence/obj
+      - /repo/src/Feed.Persistence/bin
+      - /repo/src/Feed.Security/obj
+      - /repo/src/Feed.Security/bin
+      - /repo/src/Feed.Shared/obj
+      - /repo/src/Feed.Shared/bin
+    depends_on:
+      - db
+    networks:
+      - feed-network
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DbConnection=Server=db;Port=5432;Database=feed;Username=postgres;Password=3cLXPgQVnZtFQfB+xRcOPHD8ozq7Q9BW2YZYUBM6gd4=;
+
+volumes:
+  pg_data:
+
+networks:
+  feed-network:
+    driver: bridge
