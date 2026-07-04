@@ -1,12 +1,11 @@
 services:
-  # Сервис базы данных Postgres
   db:
     image: postgres:15-alpine
     restart: always
     environment:
-      POSTGRES_USER: feed_user
-      POSTGRES_PASSWORD: feed_password_123
-      POSTGRES_DB: feed_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 3cLXPgQVnZtFQfB+xRcOPHD8ozq7Q9BW2YZYUBM6gd4=
+      POSTGRES_DB: feed
     ports:
       - "5432:5432"
     volumes:
@@ -14,18 +13,15 @@ services:
     networks:
       - feed-network
 
-  # Сервис бэкенда
   backend:
     build:
-      context: ..          # Поднимаемся на уровень выше (в корень проекта)
-      dockerfile: docker/Dockerfile  # Путь к Dockerfile относительно context
-      target: development   # Используем development режим
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: development
     ports:
-      - "8080:8080"        # Открываем порт для доступа к сайту
+      - "8080:8080"
     volumes:
-      # Монтируем папку src для hot reload
       - ../src:/repo/src
-      # Эти volume'ы нужны, чтобы файлы сборки не конфликтовали
       - /repo/src/Feed.WebApi/obj
       - /repo/src/Feed.WebApi/bin
       - /repo/src/Feed.Application/obj
@@ -44,14 +40,11 @@ services:
       - feed-network
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      # Строка подключения к БД (используем имя сервиса "db")
-      - ConnectionStrings__DbConnection=Server=db;Port=5432;Database=feed_db;Username=feed_user;Password=feed_password_123;
+      - ConnectionStrings__DbConnection=Server=db;Port=5432;Database=feed;Username=postgres;Password=3cLXPgQVnZtFQfB+xRcOPHD8ozq7Q9BW2YZYUBM6gd4=;
 
-# Тома для хранения данных
 volumes:
   pg_data:
 
-# Сеть для общения контейнеров
 networks:
   feed-network:
     driver: bridge
