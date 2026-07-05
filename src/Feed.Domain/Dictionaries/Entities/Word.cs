@@ -1,6 +1,7 @@
 ﻿namespace Feed.Domain.Dictionaries.Entities;
 
-public readonly record struct Word
+public sealed class Word
 {
+    public int Id { get; init; }
     public string Value { get; init; }
 }
