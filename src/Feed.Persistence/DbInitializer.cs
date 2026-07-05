@@ -2,7 +2,7 @@
 
 namespace Feed.Persistence;
 
-public class DbInitializer(FeedDbContext dbContext) : IDbInitializer
+internal class DbInitializer(FeedDbContext dbContext) : IDbInitializer
 {
     private readonly FeedDbContext _dbContext = dbContext;
 

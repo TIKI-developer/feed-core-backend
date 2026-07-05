@@ -24,6 +24,7 @@ public static class DependencyInjection
 
         services.AddScoped<IDbInitializer, DbInitializer>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IDictionaryRepository, DictionaryRepository>();
 
         return services;
     }
