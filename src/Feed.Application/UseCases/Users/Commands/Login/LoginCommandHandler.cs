@@ -15,7 +15,7 @@ internal sealed class LoginCommandHandler
         CancellationToken cancellationToken)
     {
         var user = await userRepository
-            .GetByNameAsync(command.Username, cancellationToken);
+            .GetByNameAsync(command.Name, cancellationToken);
 
         if (user == null || !hashVerifier.Verify(command.Password, user.Password.Hash))
             throw new Exception("Invalid credentials");
