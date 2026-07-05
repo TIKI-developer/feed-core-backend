@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="UseCases\Dictionaries\" />
+    <Folder Include="UseCases\Dictionaries\Queries\" />
     <Folder Include="UseCases\Publications\" />
     <Folder Include="UseCases\Notifications\" />
     <Folder Include="UseCases\Users\Commands\Login\" />
@@ -32,10 +32,10 @@
     <Folder Include="UseCases\Users\Commands\SendResetPasswordMessage\" />
     <Folder Include="UseCases\Users\Commands\SendConfirmEmailLink\" />
     <Folder Include="UseCases\Users\Commands\ConfirmEmail\" />
-    <Folder Include="UseCases\Users\Query\GetUser\" />
-    <Folder Include="UseCases\Users\Query\GetUserList\" />
-    <Folder Include="UseCases\Users\Query\GetRoleList\" />
-    <Folder Include="UseCases\Users\Query\GetRole\" />
+    <Folder Include="UseCases\Users\Queries\GetUser\" />
+    <Folder Include="UseCases\Users\Queries\GetUserList\" />
+    <Folder Include="UseCases\Users\Queries\GetRoleList\" />
+    <Folder Include="UseCases\Users\Queries\GetRole\" />
   </ItemGroup>
 
   <ItemGroup>

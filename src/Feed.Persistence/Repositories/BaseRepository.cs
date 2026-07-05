@@ -1,6 +1,6 @@
 ﻿namespace Feed.Persistence.Repositories;
 
-public class BaseRepository(FeedDbContext dbContext)
+internal class BaseRepository(FeedDbContext dbContext)
 {
     protected readonly FeedDbContext _dbContext = dbContext;
 

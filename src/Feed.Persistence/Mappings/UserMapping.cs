@@ -3,8 +3,7 @@ using Feed.Persistence.Entities;
 
 namespace Feed.Persistence.Mappings;
 
-
-public static class UserMapper
+internal static class UserMapper
 {
     public static UserEntity ToEntity(this User user)
     {
