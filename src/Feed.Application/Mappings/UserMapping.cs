@@ -1,5 +1,4 @@
 ﻿using Feed.Application.ViewModels;
-using Feed.Domain.Shared.ValueObjects;
 using Feed.Domain.Users.Entities;
 
 namespace Feed.Application.Mappings;

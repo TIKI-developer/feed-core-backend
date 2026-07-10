@@ -1,4 +1,5 @@
-﻿using Feed.WebApi.Interfaces;
+﻿using Feed.Application.UseCases.Users.Queries.GetDictionaries;
+using Feed.WebApi.Interfaces;
 using Feed.WebApi.Mappings;
 using Feed.WebApi.Requests;
 using Feed.WebApi.Responses;
@@ -30,6 +31,20 @@ public class DictionaryController
         var command = request.ToCommand();
         var result = await Mediator.Send(command, cancellationToken);
         var response = new Response<CreateDictionaryResponse>(result.ToResponse());
+
+        return Ok(response);
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<Response<GetDictionaryListQueryResult>>> Get
+    (
+        GetDictionaryListRequest request,
+        CancellationToken cancellationToken
+    )
+    {
+        var command = request.ToQuery();
+        var result = await Mediator.Send(command, cancellationToken);
+        var response = new Response<GetDictionaryListQueryResult>(result);
 
         return Ok(response);
     }

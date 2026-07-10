@@ -11,7 +11,11 @@ public class Dictionary
 
     private readonly HashSet<Word> _words;
 
-    private Dictionary(Guid id, string name, ICollection<Word> words, Timestamps timestamps)
+    private Dictionary(
+        Guid id,
+        string name,
+        ICollection<Word> words,
+        Timestamps timestamps)
     {
         Id = id;
         Name = name;
