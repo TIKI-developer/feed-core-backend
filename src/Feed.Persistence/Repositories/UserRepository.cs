@@ -1,4 +1,4 @@
-﻿using Feed.Application.Interfaces;
+﻿using Feed.Application.Interfaces.Repositories;
 using Feed.Domain.Users.Entities;
 using Feed.Persistence.Mappings;
 using Microsoft.EntityFrameworkCore;
@@ -53,5 +53,14 @@ internal class UserRepository(FeedDbContext dbContext) : BaseRepository(dbContex
                                     .FirstOrDefaultAsync(u => u.Name == name, cancellationToken);
 
         return userEntity?.ToDomain();
+    }
+
+    public Task UpdateAsync(User user, CancellationToken cancellationToken)
+    {
+        var entity = user.ToEntity();
+
+        _dbContext.Users.Update(entity);
+
+        return Task.CompletedTask;
     }
 }

@@ -1,7 +1,11 @@
 using Feed.Application;
+using Feed.Application.Interfaces;
+using Feed.Email;
 using Feed.Persistence;
 using Feed.Persistence.Interfaces;
 using Feed.Security;
+using Feed.WebApi.Extensions;
+using Feed.WebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,13 +13,16 @@ builder
     .Services
     .AddApplication()
     .AddPersistence(builder.Configuration)
-    .AddSecurity(builder.Configuration);
+    .AddSecurity(builder.Configuration)
+    .AddEmail(builder.Configuration);
 
 builder
     .Services
     .AddEndpointsApiExplorer()
     .AddSwaggerGen()
+    .AddApiAuthentication()
     .AddHttpContextAccessor()
+    .AddScoped<IConfirmationUrlProvider, ConfirmationUrlProvider>()
     .AddControllers();
 
 var app = builder.Build();

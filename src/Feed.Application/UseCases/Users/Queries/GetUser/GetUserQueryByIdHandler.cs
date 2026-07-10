@@ -1,5 +1,5 @@
 using Feed.Application.Exceptions;
-using Feed.Application.Interfaces;
+using Feed.Application.Interfaces.Repositories;
 using Feed.Application.Mappings;
 using Feed.Application.ViewModels;
 using Feed.Domain.Users.Entities;

@@ -1,4 +1,5 @@
-﻿using Feed.WebApi.Mappings;
+﻿using Feed.WebApi.Interfaces;
+using Feed.WebApi.Mappings;
 using Feed.WebApi.Requests;
 using Feed.WebApi.Responses;
 using Mediator;
@@ -9,18 +10,20 @@ namespace Feed.WebApi.Controllers;
 [Route("auth")]
 public class AuthController
     (
-        IMediator mediator
+        IMediator mediator,
+        ICurrentUser currentUser
     )
     :
     BaseController
     (
-        mediator
+        mediator,
+        currentUser
     )
 {
     [HttpPost("register")]
     public async Task<ActionResult<Response<RegisterResponse>>> Register
         (
-            [FromBody] RegisterRequest request,
+            RegisterRequest request,
             CancellationToken cancellationToken
         )
     {
@@ -41,6 +44,34 @@ public class AuthController
         var command = request.ToCommand();
         var result = await Mediator.Send(command, cancellationToken);
         var response = new Response<LoginResponse>(result.ToResponse());
+
+        return Ok(response);
+    }
+
+    [HttpPost("send-email-confirmation")]
+    public async Task<ActionResult<Response>> SendEmailConfirmation
+    (
+        SendEmailConfirmationRequest request,
+        CancellationToken cancellationToken
+    )
+    {
+        var command = request.ToCommand(CurrentUser.Id, request.Body.ConfirmationUrl);
+        await Mediator.Send(command, cancellationToken);
+        var response = new Response();
+
+        return Ok(response);
+    }
+
+    [HttpPost("confirm-email")]
+    public async Task<ActionResult<Response>> ConfirmEmail
+    (
+        ConfirmEmailChangingRequest request,
+        CancellationToken cancellationToken
+    )
+    {
+        var command = request.ToCommand(CurrentUser.Id);
+        await Mediator.Send(command, cancellationToken);
+        var response = new Response();
 
         return Ok(response);
     }

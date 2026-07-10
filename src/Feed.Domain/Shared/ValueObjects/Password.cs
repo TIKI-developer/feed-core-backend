@@ -1,6 +1,4 @@
-﻿using Feed.Domain.Shared.Interfaces;
-
-namespace Feed.Domain.Shared.ValueObjects;
+﻿namespace Feed.Domain.Shared.ValueObjects;
 
 public sealed record Password
 {
@@ -18,10 +16,8 @@ public sealed record Password
         return new Password(hash);
     }
 
-    public static Password Create(string raw, IStringHasher hasher)
+    public static Password Create(string hash)
     {
-        var hash = hasher.ComputeHash(raw);
-
         return new Password(hash);
     }
 }

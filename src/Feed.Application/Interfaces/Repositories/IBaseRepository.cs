@@ -1,4 +1,4 @@
-﻿namespace Feed.Application.Interfaces;
+﻿namespace Feed.Application.Interfaces.Repositories;
 
 public interface IBaseRepository
 {

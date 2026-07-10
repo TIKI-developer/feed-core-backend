@@ -1,4 +1,5 @@
-﻿using Feed.WebApi.Mappings;
+﻿using Feed.WebApi.Interfaces;
+using Feed.WebApi.Mappings;
 using Feed.WebApi.Requests;
 using Feed.WebApi.Responses;
 using Mediator;
@@ -9,12 +10,14 @@ namespace Feed.WebApi.Controllers;
 [Route("dictionaries")]
 public class DictionaryController
     (
-        IMediator mediator
+        IMediator mediator,
+        ICurrentUser currentUser
     )
     :
     BaseController
     (
-        mediator
+        mediator,
+        currentUser
     )
 {
     [HttpPost]

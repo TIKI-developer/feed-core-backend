@@ -19,6 +19,7 @@ COPY ["src/Feed.Domain/Feed.Domain.csproj", "src/Feed.Domain/"]
 COPY ["src/Feed.Persistence/Feed.Persistence.csproj", "src/Feed.Persistence/"]
 COPY ["src/Feed.Security/Feed.Security.csproj", "src/Feed.Security/"]
 COPY ["src/Feed.Shared/Feed.Shared.csproj", "src/Feed.Shared/"]
+COPY ["src/Feed.Email/Feed.Email.csproj", "src/Feed.Email/"]
 
 # Восстанавливаем зависимости
 RUN dotnet restore "Feed.slnx"
@@ -67,6 +68,7 @@ COPY ["src/Feed.Domain/Feed.Domain.csproj", "src/Feed.Domain/"]
 COPY ["src/Feed.Persistence/Feed.Persistence.csproj", "src/Feed.Persistence/"]
 COPY ["src/Feed.Security/Feed.Security.csproj", "src/Feed.Security/"]
 COPY ["src/Feed.Shared/Feed.Shared.csproj", "src/Feed.Shared/"]
+COPY ["src/Feed.Email/Feed.Email.csproj", "src/Feed.Email/"]
 
 # Восстанавливаем зависимости
 RUN dotnet restore "Feed.slnx"
