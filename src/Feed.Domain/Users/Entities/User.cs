@@ -1,5 +1,4 @@
-﻿using Feed.Domain.Shared.Interfaces;
-using Feed.Domain.Shared.ValueObjects;
+﻿using Feed.Domain.Shared.ValueObjects;
 
 namespace Feed.Domain.Users.Entities;
 
@@ -56,11 +55,8 @@ public sealed class User
         return new User(id, name, password, email, profile, roles);
     }
 
-    public void ChangePassword(string currentPasswordRaw, Password newPassword, IHashVerifier hashVerifier)
+    public void ChangePassword(string currentPasswordRaw, Password newPassword)
     {
-        if (!hashVerifier.Verify(currentPasswordRaw, newPassword.Hash))
-            throw new Exception("Password is incorrect.");
-
         Password = newPassword;
     }
 

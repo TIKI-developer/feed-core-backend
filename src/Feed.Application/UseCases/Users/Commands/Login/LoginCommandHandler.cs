@@ -1,12 +1,12 @@
 using Feed.Application.Interfaces;
-using Feed.Domain.Shared.Interfaces;
+using Feed.Application.Interfaces.Repositories;
 using Mediator;
 
 namespace Feed.Application.UseCases.Users.Commands.Login;
 
 internal sealed class LoginCommandHandler
     (IUserRepository userRepository,
-    IHashVerifier hashVerifier,
+    IPasswordHasher passwordHasher,
     IAccessTokenService accessTokenService)
     : ICommandHandler<LoginCommand, LoginCommandResult>
 {
@@ -17,7 +17,7 @@ internal sealed class LoginCommandHandler
         var user = await userRepository
             .GetByNameAsync(command.Name, cancellationToken);
 
-        if (user == null || !hashVerifier.Verify(command.Password, user.Password.Hash))
+        if (user == null || !passwordHasher.Verify(command.Password, user.Password.Hash))
             throw new Exception("Invalid credentials");
 
         var accessToken = accessTokenService.Generate(user);

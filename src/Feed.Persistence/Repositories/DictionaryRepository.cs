@@ -1,4 +1,4 @@
-﻿using Feed.Application.Interfaces;
+﻿using Feed.Application.Interfaces.Repositories;
 using Feed.Domain.Dictionaries.Entities;
 using Feed.Persistence.Mappings;
 

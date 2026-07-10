@@ -1,6 +1,6 @@
 ﻿using Feed.Application.Exceptions;
 using Feed.Application.Interfaces;
-using Feed.Domain.Shared.Interfaces;
+using Feed.Application.Interfaces.Repositories;
 using Feed.Domain.Shared.ValueObjects;
 using Feed.Domain.Users.Entities;
 using Mediator;
@@ -10,7 +10,7 @@ namespace Feed.Application.UseCases.Users.Commands.Register;
 internal sealed class RegisterCommandHandler
     (IUserRepository userRepository,
     IUserUniquenessChecker userUniquenessChecker,
-    IStringHasher stringHasher,
+    IPasswordHasher passwordHasher,
     IAccessTokenService accessTokenService)
     :
     ICommandHandler<RegisterCommand, RegisterCommandResult>
@@ -23,7 +23,7 @@ internal sealed class RegisterCommandHandler
             throw new AlreadyExist(nameof(User), command.Name);
         }
 
-        var newUser = User.Create(command.Name, Password.Create(command.Password, stringHasher));
+        var newUser = User.Create(command.Name, Password.Create(passwordHasher.Hash(command.Password)));
         var accessToken = accessTokenService.Generate(newUser);
 
         await userRepository.AddAsync(newUser, cancellationToken);

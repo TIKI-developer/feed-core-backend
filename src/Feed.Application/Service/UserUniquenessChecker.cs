@@ -1,4 +1,5 @@
 ﻿using Feed.Application.Interfaces;
+using Feed.Application.Interfaces.Repositories;
 
 namespace Feed.Application.Service;
 

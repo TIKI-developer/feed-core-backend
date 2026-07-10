@@ -1,4 +1,4 @@
-﻿using Feed.Application.Interfaces;
+﻿using Feed.Application.Interfaces.Repositories;
 using Feed.Persistence.Interfaces;
 using Feed.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +12,7 @@ public static class DependencyInjection
     public static IServiceCollection AddPersistence
         (this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("DbConnection");
+        var connectionString = configuration.GetConnectionString("PostgresDbConnection");
 
         services.AddDbContext<FeedDbContext>(options =>
         {
@@ -25,6 +25,7 @@ public static class DependencyInjection
         services.AddScoped<IDbInitializer, DbInitializer>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IDictionaryRepository, DictionaryRepository>();
+        services.AddScoped<IUserTokenRepository, UserTokenRepository>();
 
         return services;
     }

@@ -1,6 +1,6 @@
 ﻿using Feed.Domain.Dictionaries.Entities;
 
-namespace Feed.Application.Interfaces;
+namespace Feed.Application.Interfaces.Repositories;
 
 public interface IDictionaryRepository : IBaseRepository
 {

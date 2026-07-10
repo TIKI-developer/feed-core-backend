@@ -9,8 +9,8 @@ public static class RegisterRequestMapping
     {
         return new RegisterCommand
         {
-            Name = request.Name,
-            Password = request.Password
+            Name = request.Body.Name,
+            Password = request.Body.Password
         };
     }
 }

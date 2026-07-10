@@ -133,3 +133,5 @@ $RECYCLE.BIN/
 _NCrunch*
 /.vs
 *.env
+/src/Feed.WebApi/appsettings.Development.json
+/docker/compose.dev.yml

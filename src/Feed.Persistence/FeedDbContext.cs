@@ -9,6 +9,7 @@ internal sealed class FeedDbContext(DbContextOptions<FeedDbContext> options) : D
     public DbSet<UserEntity> Users { get; set; }
     public DbSet<DictionaryEntity> Dictionaries { get; set; }
     public DbSet<WordEntity> Words { get; set; }
+    public DbSet<UserTokenEntity> ConfirmationTokens { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -17,5 +18,6 @@ internal sealed class FeedDbContext(DbContextOptions<FeedDbContext> options) : D
         modelBuilder.ApplyConfiguration(new DictionaryConfiguration());
         modelBuilder.ApplyConfiguration(new WordConfiguration());
         modelBuilder.ApplyConfiguration(new DictionaryWordConfiguration());
+        modelBuilder.ApplyConfiguration(new UserTokenConfiguration());
     }
 }

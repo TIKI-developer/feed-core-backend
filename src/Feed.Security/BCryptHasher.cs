@@ -1,10 +1,10 @@
-﻿using Feed.Domain.Shared.Interfaces;
+﻿using Feed.Application.Interfaces;
 
 namespace Feed.Security;
 
-public class PasswordHasher : IStringHasher, IHashVerifier
+internal class BCryptHasher : IPasswordHasher
 {
-    public string ComputeHash(string raw)
+    public string Hash(string raw)
     {
         return BCrypt.Net.BCrypt.EnhancedHashPassword(raw);
     }

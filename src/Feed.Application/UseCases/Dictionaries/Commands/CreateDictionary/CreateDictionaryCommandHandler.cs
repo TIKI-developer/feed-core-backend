@@ -1,4 +1,4 @@
-﻿using Feed.Application.Interfaces;
+﻿using Feed.Application.Interfaces.Repositories;
 using Feed.Application.UseCases.Dictionaries.Commands.CreateDictionar;
 using Feed.Domain.Dictionaries.Entities;
 using Mediator;
