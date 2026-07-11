@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="UseCases\Dictionaries\Queries\" />
     <Folder Include="UseCases\Publications\" />
     <Folder Include="UseCases\Notifications\" />
     <Folder Include="UseCases\Users\Commands\Login\" />

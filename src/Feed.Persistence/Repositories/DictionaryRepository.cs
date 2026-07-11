@@ -25,4 +25,14 @@ internal class DictionaryRepository(FeedDbContext dbContext) : BaseRepository(db
 
         return dictionaryEntities;
     }
+
+    public async Task<Dictionary?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var dictionaryEntity = await _dbContext
+            .Dictionaries
+            .AsNoTracking()
+            .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+
+        return dictionaryEntity?.ToDomain();
+    }
 }

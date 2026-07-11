@@ -14,4 +14,15 @@ internal static class DictionaryMapping
             FirstTenWords = [.. dictionary.Words.Take(10).Select(w => w.Value)]
         };
     }
+
+    public static DictionaryDetails ToDetails(this Dictionary dictionary)
+    {
+        return new DictionaryDetails
+        {
+            Id = dictionary.Id,
+            Name = dictionary.Name,
+            Words = [.. dictionary.Words],
+            Timestamps = dictionary.Timestamps
+        };
+    }
 }

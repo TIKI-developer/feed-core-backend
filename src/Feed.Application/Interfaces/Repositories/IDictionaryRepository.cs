@@ -7,4 +7,5 @@ public interface IDictionaryRepository : IBaseRepository
 {
     Task AddAsync(Dictionary dictionary, CancellationToken cancellationToken = default);
     Task<PagedList<Dictionary>> GetAsync(int page, int pageSize, CancellationToken cancellationToken = default);
+    Task<Dictionary?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
 }
