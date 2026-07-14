@@ -6,15 +6,15 @@ public class Dictionary
 {
     public Guid Id { get; private set; }
     public string Name { get; private set; }
-    public IReadOnlyCollection<Word> Words => _words.AsReadOnly();
+    public IReadOnlyCollection<int> Words => _words.AsReadOnly();
     public Timestamps Timestamps { get; private set; }
 
-    private readonly HashSet<Word> _words;
+    private readonly HashSet<int> _words;
 
     private Dictionary(
         Guid id,
         string name,
-        ICollection<Word> words,
+        ICollection<int> words,
         Timestamps timestamps)
     {
         Id = id;
@@ -23,12 +23,12 @@ public class Dictionary
         Timestamps = timestamps;
     }
 
-    public static Dictionary Create(string name, ICollection<Word>? words = null)
+    public static Dictionary Create(string name, ICollection<int>? words = null)
     {
         return new Dictionary(Guid.NewGuid(), name, words ?? [], Timestamps.Create());
     }
 
-    public static Dictionary Restore(Guid id, string name, ICollection<Word> words, Timestamps timestamps)
+    public static Dictionary Restore(Guid id, string name, ICollection<int> words, Timestamps timestamps)
     {
         return new Dictionary(id, name, words, timestamps);
     }
@@ -39,7 +39,7 @@ public class Dictionary
         Timestamps.Touch();
     }
 
-    public void AddWords(IEnumerable<Word> words)
+    public void AddWords(IEnumerable<int> words)
     {
         foreach (var word in words)
         {
@@ -49,7 +49,7 @@ public class Dictionary
         Timestamps.Touch();
     }
 
-    public void RemoveWords(IEnumerable<Word> words)
+    public void RemoveWords(IEnumerable<int> words)
     {
         foreach (var word in words)
         {

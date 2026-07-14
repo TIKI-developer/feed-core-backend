@@ -7,6 +7,6 @@ public readonly record struct DictionaryDetails
 {
     public required Guid Id { get; init; }
     public required string Name { get; init; }
-    public required IReadOnlyCollection<Word> Words { get; init; }
+    public required ICollection<Word> Words { get; init; }
     public required Timestamps Timestamps { get; init; }
 }

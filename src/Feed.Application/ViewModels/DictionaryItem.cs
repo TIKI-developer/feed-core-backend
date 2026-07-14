@@ -1,6 +1,4 @@
-﻿using Feed.Domain.Dictionaries.Entities;
-
-namespace Feed.Application.ViewModels;
+﻿namespace Feed.Application.ViewModels;
 
 public readonly record struct DictionaryItem
 {

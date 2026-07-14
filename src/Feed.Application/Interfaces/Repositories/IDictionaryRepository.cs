@@ -5,7 +5,8 @@ namespace Feed.Application.Interfaces.Repositories;
 
 public interface IDictionaryRepository : IBaseRepository
 {
-    Task AddAsync(Dictionary dictionary, CancellationToken cancellationToken = default);
-    Task<PagedList<Dictionary>> GetAsync(int page, int pageSize, CancellationToken cancellationToken = default);
+    Task<PagedList<Dictionary>> GetPagedListAsync(int page, int pageSize, CancellationToken cancellationToken = default);
     Task<Dictionary?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+    Task AddAsync(Dictionary dictionary, CancellationToken cancellationToken = default);
+    Task UpdateAsync(Dictionary dictionary, CancellationToken cancellationToken);
 }

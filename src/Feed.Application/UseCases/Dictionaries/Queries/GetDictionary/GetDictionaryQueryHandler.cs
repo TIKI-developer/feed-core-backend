@@ -7,7 +7,8 @@ using Mediator;
 namespace Feed.Application.UseCases.Dictionaries.Queries.GetDictionary;
 
 internal sealed class GetDictionaryQueryHandler
-    (IDictionaryRepository dictionaryRepository)
+    (IDictionaryRepository dictionaryRepository,
+    IWordRepository wordRepository)
     : IQueryHandler<GetDictionaryQuery, GetDictionaryQueryResult>
 {
     public async ValueTask<GetDictionaryQueryResult> Handle(
@@ -17,9 +18,11 @@ internal sealed class GetDictionaryQueryHandler
         var dictionary = await dictionaryRepository.GetByIdAsync(query.Id, cancellationToken)
             ?? throw new NotFoundException(nameof(Dictionary), query.Id);
 
+        var words = await wordRepository.GetByIdsAsync([.. dictionary.Words], cancellationToken);
+
         return new GetDictionaryQueryResult
         {
-            Dictionary = dictionary.ToDetails()
+            Dictionary = dictionary.ToDetails(words)
         };
     }
 }

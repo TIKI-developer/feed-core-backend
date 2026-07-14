@@ -1,4 +1,6 @@
-﻿using Feed.Domain.Dictionaries.Entities;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Feed.Domain.Dictionaries.Entities;
 using Feed.Persistence.Entities;
 
 namespace Feed.Persistence.Mappings;
@@ -12,25 +14,24 @@ internal static class DictionaryMapping
             Id = dictionary.Id,
             Name = dictionary.Name,
             Timestamps = dictionary.Timestamps,
-            DictionaryWords = [..dictionary.Words.Select(w => new DictionaryWordEntity
-            {
-                DictionaryId = dictionary.Id,
-                WordId = w.Id,
-            })],
+            DictionaryWords = dictionary.Words
+                .Select(wid => new DictionaryWordEntity
+                {
+                    DictionaryId = dictionary.Id,
+                    WordId = wid
+                })
+                .ToList()
         };
     }
 
     public static Dictionary ToDomain(this DictionaryEntity entity)
     {
-        return Dictionary.Restore
-        (
+        var wordIds = entity.DictionaryWords?.Select(dw => dw.WordId).ToList() ?? new List<int>();
+
+        return Dictionary.Restore(
             entity.Id,
             entity.Name,
-            [.. entity.DictionaryWords.Select(dw => new Word
-            {
-                Id = dw.WordId,
-                Value = dw.Word.Value,
-            })],
+            wordIds,
             entity.Timestamps
         );
     }
