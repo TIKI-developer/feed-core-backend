@@ -5,23 +5,23 @@ namespace Feed.Application.Mappings;
 
 internal static class DictionaryMapping
 {
-    public static DictionaryItem ToItem(this Dictionary dictionary)
+    public static DictionaryItem ToItem(this Dictionary dictionary, ICollection<Word> firstTenWords)
     {
         return new DictionaryItem
         {
             Id = dictionary.Id,
             Name = dictionary.Name,
-            FirstTenWords = [.. dictionary.Words.Take(10).Select(w => w.Value)]
+            FirstTenWords = [.. firstTenWords.Select(w => w.Value)],
         };
     }
 
-    public static DictionaryDetails ToDetails(this Dictionary dictionary)
+    public static DictionaryDetails ToDetails(this Dictionary dictionary, ICollection<Word> words)
     {
         return new DictionaryDetails
         {
             Id = dictionary.Id,
             Name = dictionary.Name,
-            Words = [.. dictionary.Words],
+            Words = words,
             Timestamps = dictionary.Timestamps
         };
     }
