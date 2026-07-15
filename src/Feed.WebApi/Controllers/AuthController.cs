@@ -62,10 +62,24 @@ public class AuthController
         return Ok(response);
     }
 
-    [HttpPost("confirm-email")]
+    [HttpPatch("confirm-email")]
     public async Task<ActionResult<Response>> ConfirmEmail
     (
         ConfirmEmailChangingRequest request,
+        CancellationToken cancellationToken
+    )
+    {
+        var command = request.ToCommand(CurrentUser.Id);
+        await Mediator.Send(command, cancellationToken);
+        var response = new Response();
+
+        return Ok(response);
+    }
+
+    [HttpPatch("change-password")]
+    public async Task<ActionResult<Response>> ChangePassword
+    (
+        ChangePasswordRequest request,
         CancellationToken cancellationToken
     )
     {
