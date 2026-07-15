@@ -1,4 +1,5 @@
-﻿using Feed.Application.UseCases.Dictionaries.Queries.GetDictionary;
+﻿using Feed.Application.UseCases.Dictionaries.Commands.DeleteDictionary;
+using Feed.Application.UseCases.Dictionaries.Queries.GetDictionary;
 using Feed.Application.UseCases.Users.Queries.GetDictionaries;
 using Feed.WebApi.Interfaces;
 using Feed.WebApi.Mappings;
@@ -88,6 +89,20 @@ public class DictionaryController
         )
     {
         var command = request.ToCommand(id);
+        await Mediator.Send(command, cancellationToken);
+        var response = new Response();
+
+        return Ok(response);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult<Response>> Delete
+    (
+        Guid id,
+        CancellationToken cancellationToken
+    )
+    {
+        var command = new DeleteDictionaryCommand { Id = id };
         await Mediator.Send(command, cancellationToken);
         var response = new Response();
 
