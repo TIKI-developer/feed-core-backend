@@ -1,4 +1,6 @@
-﻿namespace Feed.Domain.Users.Entities;
+﻿using Feed.Domain.Users.ValueObjects;
+
+namespace Feed.Domain.Users.Entities;
 
 public class Role
 {
@@ -17,9 +19,9 @@ public class Role
         _permissions = [.. permissions];
     }
 
-    public static Role Create(string name)
+    public static Role Create(string name, ICollection<Permission> permissions)
     {
-        return new Role(name, []);
+        return new Role(name, permissions);
     }
 
     public static Role Restore(string name, ICollection<Permission> permissions)

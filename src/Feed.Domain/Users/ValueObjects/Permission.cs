@@ -1,4 +1,4 @@
-﻿namespace Feed.Domain.Users.Entities;
+﻿namespace Feed.Domain.Users.ValueObjects;
 
 public record Permission
 {
