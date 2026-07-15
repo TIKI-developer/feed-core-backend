@@ -1,4 +1,5 @@
-﻿using Feed.WebApi.Interfaces;
+﻿using Feed.Application.UseCases.Users.Queries.GetRoleList;
+using Feed.WebApi.Interfaces;
 using Feed.WebApi.Mappings;
 using Feed.WebApi.Requests;
 using Feed.WebApi.Responses;
@@ -20,6 +21,19 @@ public class RoleController
         currentUser
     )
 {
+    [HttpGet]
+    public async Task<ActionResult<Response<GetRoleListQueryResult>>> Get
+    (
+        CancellationToken cancellationToken
+    )
+    {
+        var query = new GetRoleListQuery();
+        var result = await Mediator.Send(query, cancellationToken);
+        var response = new Response<GetRoleListResponse>(result.ToResponse());
+
+        return Ok(response);
+    }
+
     [HttpPost]
     public async Task<ActionResult<Response>> Create
     (
