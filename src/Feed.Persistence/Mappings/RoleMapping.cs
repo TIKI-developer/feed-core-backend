@@ -13,4 +13,12 @@ internal static class RoleMapping
             Permissions = [.. role.Permissions.Select(p => p.ToEntity())]
         };
     }
+    public static Role ToDomain(this RoleEntity role)
+    {
+        return Role.Restore
+            (
+                role.Name,
+                [.. role.Permissions.Select(e => e.ToDomain())]
+            );
+    }
 }
