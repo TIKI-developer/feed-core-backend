@@ -24,10 +24,8 @@
     <Folder Include="UseCases\Users\Commands\UpdateProfile\" />
     <Folder Include="UseCases\Users\Commands\AddRole\" />
     <Folder Include="UseCases\Users\Commands\RemoveRole\" />
-    <Folder Include="UseCases\Users\Commands\CreateRole\" />
     <Folder Include="UseCases\Users\Commands\DeleteRole\" />
     <Folder Include="UseCases\Users\Commands\UpdateRole\" />
-    <Folder Include="UseCases\Users\Commands\ChangePassword\" />
     <Folder Include="UseCases\Users\Commands\SendResetPasswordMessage\" />
     <Folder Include="UseCases\Users\Queries\GetUser\" />
     <Folder Include="UseCases\Users\Queries\GetUserList\" />
