@@ -9,4 +9,5 @@ public interface IDictionaryRepository : IBaseRepository
     Task<Dictionary?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     Task AddAsync(Dictionary dictionary, CancellationToken cancellationToken = default);
     Task UpdateAsync(Dictionary dictionary, CancellationToken cancellationToken);
+    Task UpdateAsync(Dictionary dictionary, CancellationToken cancellationToken);
 }

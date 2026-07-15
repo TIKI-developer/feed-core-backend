@@ -26,6 +26,7 @@ internal class DictionaryRepository(FeedDbContext dbContext) : BaseRepository(db
     {
         var dictionaryEntities = await _dbContext
             .Dictionaries
+            .Include(e => e.Timestamps)
             .Select(e => e.ToDomain())
             .ToPagedListAsync(page, pageSize, cancellationToken);
 
@@ -39,6 +40,7 @@ internal class DictionaryRepository(FeedDbContext dbContext) : BaseRepository(db
         var dictionaryEntity = await _dbContext
             .Dictionaries
             .Include(e => e.DictionaryWords)
+            .Include(e => e.Timestamps)
             .AsNoTracking()
             .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
 

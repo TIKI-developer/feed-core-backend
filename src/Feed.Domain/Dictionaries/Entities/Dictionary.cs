@@ -36,7 +36,7 @@ public class Dictionary
     public void Update(string name)
     {
         Name = name;
-        Timestamps.Touch();
+        Timestamps = Timestamps.Touch();
     }
 
     public void AddWords(IEnumerable<int> words)
