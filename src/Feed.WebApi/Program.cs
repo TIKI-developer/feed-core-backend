@@ -43,6 +43,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseCustomExceptionHandler();
 app.MapControllers();
 
 app.Run();
