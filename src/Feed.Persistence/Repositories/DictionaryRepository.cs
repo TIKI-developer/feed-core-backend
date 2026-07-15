@@ -10,15 +10,6 @@ namespace Feed.Persistence.Repositories;
 
 internal class DictionaryRepository(FeedDbContext dbContext) : BaseRepository(dbContext), IDictionaryRepository
 {
-    public async Task AddAsync(
-        Dictionary dictionary,
-        CancellationToken cancellationToken = default)
-    {
-        await _dbContext
-            .Dictionaries
-            .AddAsync(dictionary.ToEntity(), cancellationToken);
-    }
-
     public async Task<PagedList<Dictionary>> GetPagedListAsync(
         int page,
         int pageSize,
@@ -46,6 +37,23 @@ internal class DictionaryRepository(FeedDbContext dbContext) : BaseRepository(db
             .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
 
         return dictionaryEntity?.ToDomain();
+    }
+
+    public async Task AddAsync(
+        Dictionary dictionary,
+        CancellationToken cancellationToken = default)
+    {
+        await _dbContext
+            .Dictionaries
+            .AddAsync(dictionary.ToEntity(), cancellationToken);
+    }
+
+    public Task DeleteAsync(Dictionary dictionary, CancellationToken cancellationToken)
+    {
+        var dictionaryEntity = dictionary.ToEntity();
+        _dbContext.Dictionaries.Remove(dictionaryEntity);
+        
+        return Task.CompletedTask;
     }
 
     public async Task UpdateAsync(Dictionary dictionary, CancellationToken cancellationToken)
