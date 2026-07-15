@@ -55,7 +55,7 @@ public sealed class User
         return new User(id, name, password, email, profile, roles);
     }
 
-    public void ChangePassword(string currentPasswordRaw, Password newPassword)
+    public void ChangePassword(Password newPassword)
     {
         Password = newPassword;
     }
