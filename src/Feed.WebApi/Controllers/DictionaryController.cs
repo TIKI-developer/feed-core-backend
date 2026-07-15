@@ -63,4 +63,19 @@ public class DictionaryController
 
         return Ok(response);
     }
+
+    [HttpPut("{id}")]
+    public async Task<ActionResult<Response>> Update
+        (
+            Guid id,
+            UpdateDictionaryRequest request,
+            CancellationToken cancellationToken
+        )
+    {
+        var command = request.ToCommand(id);
+        await Mediator.Send(command, cancellationToken);
+        var response = new Response();
+
+        return Ok(response);
+    }
 }
