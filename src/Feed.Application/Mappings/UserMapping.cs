@@ -16,5 +16,13 @@ public static class UserMapping
             //Roles = roles.Any(role => role.Name).Select(role => role.Name)
         };
     }
+    public static UserItem ToItem(this User user)
+    {
+        return new UserItem
+        {
+            Id = user.Id,
+            Name = user.Name,
+            FullName = user.Profile?.FullName,
+        };
+    }
 }
-
