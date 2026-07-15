@@ -27,6 +27,7 @@ internal class DictionaryRepository(FeedDbContext dbContext) : BaseRepository(db
         var dictionaryEntities = await _dbContext
             .Dictionaries
             .Include(e => e.Timestamps)
+            .Include(e => e.DictionaryWords)
             .Select(e => e.ToDomain())
             .ToPagedListAsync(page, pageSize, cancellationToken);
 
