@@ -79,7 +79,22 @@ public class DictionaryController
 
         return Ok(response);
     }
-    
+
+    [HttpPost("{id}/words/remove")]
+    public async Task<ActionResult<Response>> RemoveWords
+    (
+        Guid id,
+        RemoveWordsFromDictionaryRequest request,
+        CancellationToken cancellationToken
+    )
+    {
+        var command = request.ToCommand(id);
+        await Mediator.Send(command, cancellationToken);
+        var response = new Response();
+
+        return Ok(response);
+    }
+
     [HttpPut("{id}")]
     public async Task<ActionResult<Response>> Update
         (
