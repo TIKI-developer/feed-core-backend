@@ -135,3 +135,4 @@ _NCrunch*
 *.env
 /src/Feed.WebApi/appsettings.Development.json
 /docker/compose.dev.yml
+/plugins

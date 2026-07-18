@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="UseCases\Publications\" />
     <Folder Include="UseCases\Notifications\" />
     <Folder Include="UseCases\Users\Commands\Login\" />
     <Folder Include="UseCases\Users\Commands\Logout\" />
@@ -28,13 +27,13 @@
     <Folder Include="UseCases\Users\Commands\UpdateRole\" />
     <Folder Include="UseCases\Users\Commands\SendResetPasswordMessage\" />
     <Folder Include="UseCases\Users\Queries\GetUser\" />
-    <Folder Include="UseCases\Users\Queries\GetUserList\" />
     <Folder Include="UseCases\Users\Queries\GetRoleList\" />
     <Folder Include="UseCases\Users\Queries\GetRole\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Feed.Domain\Feed.Domain.csproj" />
+    <ProjectReference Include="..\Feed.Plugin.Abstractions\Feed.Plugin.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,50 @@
+﻿using Feed.Application.UseCases.Publications.Query.GetSourceProviderList;
+using Feed.WebApi.Interfaces;
+using Feed.WebApi.Mappings;
+using Feed.WebApi.Requests;
+using Feed.WebApi.Responses;
+using Mediator;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Feed.WebApi.Controllers;
+
+[Route("sources")]
+public class SourceController
+    (
+        IMediator mediator,
+        ICurrentUser currentUser
+    )
+    :
+    BaseController
+    (
+        mediator,
+        currentUser
+    )
+{
+    [HttpGet("providers")]
+    public async Task<ActionResult<Response<GetSourceProviderListQueryResult>>> GetSourceProvders
+    (
+        CancellationToken cancellationToken
+    )
+    {
+        var query = new GetSourceProviderListQuery();
+        var result = await Mediator.Send(query, cancellationToken);
+        var response = new Response<GetSourceProviderListQueryResult>(result);
+
+        return Ok(response);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<Response>> CreateSource
+    (
+        CreateSourceRequest request,
+        CancellationToken cancellationToken
+    )
+    {
+        var command = request.ToCommand();
+        var result = await Mediator.Send(command, cancellationToken);
+        var response = new Response<CreateSourceResponse>(result.ToResponse());
+
+        return Ok(response);
+    }
+}

@@ -22,6 +22,7 @@ services:
       - "8080:8080"
     volumes:
       - ../src:/repo/src
+      - ../plugins:/repo/plugins
       - /repo/src/Feed.WebApi/obj
       - /repo/src/Feed.WebApi/bin
       - /repo/src/Feed.Application/obj
@@ -36,6 +37,10 @@ services:
       - /repo/src/Feed.Shared/bin
       - /repo/src/Feed.Email/obj
       - /repo/src/Feed.Email/bin
+      - /repo/src/Feed.Plugin.Abstractions/obj
+      - /repo/src/Feed.Plugin.Abstractions/bin
+      - /repo/src/Feed.Plugin.Host/obj
+      - /repo/src/Feed.Plugin.Host/bin
     depends_on:
       - db
     networks:
@@ -56,6 +61,8 @@ services:
       EmailProviderOptions__Credentials__Address: "SENDER_ADDRESS"
       EmailProviderOptions__Credentials__Password: "SENDER_PASSWORD"
 
+      PluginOptions__Directories__0: "/repo/plugins/builtin"
+      PluginOptions__Directories__1: "/repo/plugins"
 
 volumes:
   pg_data:

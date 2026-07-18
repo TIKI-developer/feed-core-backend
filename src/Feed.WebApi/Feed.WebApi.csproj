@@ -18,6 +18,7 @@
     <ProjectReference Include="..\Feed.Application\Feed.Application.csproj" />
     <ProjectReference Include="..\Feed.Email\Feed.Email.csproj" />
     <ProjectReference Include="..\Feed.Persistence\Feed.Persistence.csproj" />
+    <ProjectReference Include="..\Feed.Plugin.Host\Feed.Plugin.Host.csproj" />
     <ProjectReference Include="..\Feed.Security\Feed.Security.csproj" />
   </ItemGroup>
 
