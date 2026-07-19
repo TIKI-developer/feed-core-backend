@@ -15,14 +15,16 @@ internal sealed class PluginLoadContext : AssemblyLoadContext
 
     protected override Assembly? Load(AssemblyName assemblyName)
     {
-        if (assemblyName.Name == "Feed.Plugin.Abstractions")
+        var alreadyLoadedByHost = AssemblyLoadContext.Default.Assemblies
+            .Any(a => string.Equals(a.GetName().Name, assemblyName.Name, StringComparison.Ordinal));
+
+        if (alreadyLoadedByHost)
             return null;
 
         var path = _resolver.ResolveAssemblyToPath(assemblyName);
 
-        if (path is not null)
-            return LoadFromAssemblyPath(path);
-
-        return null;
+        return path is not null
+            ? LoadFromAssemblyPath(path)
+            : null;
     }
 }
