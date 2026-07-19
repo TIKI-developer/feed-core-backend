@@ -116,6 +116,6 @@ ENV PLUGIN_PROJECTS="Feed.Vk"
 
 # Запускаем отдельный dotnet watch build для каждого плагина
 CMD sh -c 'for name in $PLUGIN_PROJECTS; do \
-      (dotnet watch build "src/$name/$name.csproj" --no-restore -o "/repo/plugins/builtin/$name" --non-interactive &) ; \
+      (cd /repo/src/$name && dotnet restore && dotnet watch build -o "/repo/plugins/builtin/$name" --non-interactive &) ; \
     done; \
-    wait'
+    while true; do sleep 30; done'
