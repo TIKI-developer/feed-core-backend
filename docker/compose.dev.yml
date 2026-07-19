@@ -1,0 +1,63 @@
+services:
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: feed
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - feed-network
+
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: development
+    ports:
+      - "9000:8080"
+    volumes:
+      - ../src:/repo/src
+      - plugins_builtin:/repo/plugins/builtin
+    depends_on:
+      - db
+      - plugins-watch
+    networks:
+      - feed-network
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      DOTNET_WATCH_RESTART_ON_RUDE_EDIT: true
+
+      # Все переменные берутся из .env.dev файла
+      ConnectionStrings__PostgresDbConnection: "Host=db;Port=5432;Database=feed;Username=postgres;Password=${POSTGRES_PASSWORD}"
+      AccessTokenOptions__JwtOptions__SecretKey: ${JWT_SECRET_KEY}
+      AccessTokenOptions__JwtOptions__ExpiresHours: "24"
+      EmailProviderOptions__Host: ${EMAIL_HOST}
+      EmailProviderOptions__Port: ${EMAIL_PORT}
+      EmailProviderOptions__EnableSsl: ${ENABLE_SSL}
+      EmailProviderOptions__Credentials__Address: ${SENDER_ADDRESS}
+      EmailProviderOptions__Credentials__Password: ${SENDER_PASSWORD}
+      PluginOptions__Directories__0: "/repo/plugins/builtin"
+
+  plugins-watch:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+      target: plugins-development
+    volumes:
+      - ../src:/repo/src
+      - plugins_builtin:/repo/plugins/builtin
+    networks:
+      - feed-network
+
+volumes:
+  pg_data:
+  plugins_builtin:
+
+networks:
+  feed-network:
+    driver: bridge

@@ -22,4 +22,8 @@
     <ProjectReference Include="..\Feed.Security\Feed.Security.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Watch Include="../../plugins/builtin/**/*.dll" />
+  </ItemGroup>
+
 </Project>

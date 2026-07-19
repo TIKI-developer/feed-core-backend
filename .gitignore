@@ -134,5 +134,9 @@ _NCrunch*
 /.vs
 *.env
 /src/Feed.WebApi/appsettings.Development.json
-/docker/compose.dev.yml
+#/docker/compose.dev.yml
 /plugins
+
+# Docker secrets
+#**/.env
+#**/.env.*
