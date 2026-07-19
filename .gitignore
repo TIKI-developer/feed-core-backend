@@ -133,6 +133,7 @@ $RECYCLE.BIN/
 _NCrunch*
 /.vs
 *.env
+
 /src/Feed.WebApi/appsettings.Development.json
 #/docker/compose.dev.yml
 /plugins
@@ -140,3 +141,5 @@ _NCrunch*
 # Docker secrets
 #**/.env
 #**/.env.*
+
+!**/.env.example
