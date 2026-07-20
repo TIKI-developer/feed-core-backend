@@ -9,7 +9,7 @@ public static class GetSourceListRequestMapping
     {
         return new GetSourceListQuery
         {
-            Pagination = request.Body.Pagination.ToPaginationQuery()
+            Pagination = request.Pagination.ToPaginationQuery()
         };
     }
 }
