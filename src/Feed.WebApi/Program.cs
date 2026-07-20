@@ -1,3 +1,4 @@
+using DotNetEnv;
 using Feed.Application;
 using Feed.Application.Interfaces;
 using Feed.Email;
@@ -7,6 +8,11 @@ using Feed.Plugin.Host;
 using Feed.Security;
 using Feed.WebApi.Extensions;
 using Feed.WebApi.Services;
+
+if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+{
+    Env.TraversePath().Load();
+}
 
 var builder = WebApplication.CreateBuilder(args);
 

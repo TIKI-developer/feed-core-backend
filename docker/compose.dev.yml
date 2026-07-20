@@ -3,11 +3,11 @@ services:
     image: postgres:15-alpine
     restart: always
     environment:
-      POSTGRES_USER: postgres
+      POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: feed
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT}:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
     networks:
@@ -19,10 +19,28 @@ services:
       dockerfile: docker/Dockerfile
       target: development
     ports:
-      - "9000:8080"
+      - "${BACKEND_HOST_PORT}:8080"
     volumes:
       - ../src:/repo/src
       - plugins_builtin:/repo/plugins/builtin
+      - /repo/src/Feed.WebApi/obj
+      - /repo/src/Feed.WebApi/bin
+      - /repo/src/Feed.Application/obj
+      - /repo/src/Feed.Application/bin
+      - /repo/src/Feed.Domain/obj
+      - /repo/src/Feed.Domain/bin
+      - /repo/src/Feed.Persistence/obj
+      - /repo/src/Feed.Persistence/bin
+      - /repo/src/Feed.Security/obj
+      - /repo/src/Feed.Security/bin
+      - /repo/src/Feed.Shared/obj
+      - /repo/src/Feed.Shared/bin
+      - /repo/src/Feed.Email/obj
+      - /repo/src/Feed.Email/bin
+      - /repo/src/Feed.Plugin.Abstractions/obj
+      - /repo/src/Feed.Plugin.Abstractions/bin
+      - /repo/src/Feed.Plugin.Host/obj
+      - /repo/src/Feed.Plugin.Host/bin
     depends_on:
       - db
       - plugins-watch
@@ -32,15 +50,15 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
       DOTNET_WATCH_RESTART_ON_RUDE_EDIT: true
 
-      # Все переменные берутся из .env.dev файла
-      ConnectionStrings__PostgresDbConnection: "Host=db;Port=5432;Database=feed;Username=postgres;Password=${POSTGRES_PASSWORD}"
-      AccessTokenOptions__JwtOptions__SecretKey: ${JWT_SECRET_KEY}
-      AccessTokenOptions__JwtOptions__ExpiresHours: "24"
-      EmailProviderOptions__Host: ${EMAIL_HOST}
-      EmailProviderOptions__Port: ${EMAIL_PORT}
-      EmailProviderOptions__EnableSsl: ${ENABLE_SSL}
-      EmailProviderOptions__Credentials__Address: ${SENDER_ADDRESS}
-      EmailProviderOptions__Credentials__Password: ${SENDER_PASSWORD}
+      # Все переменные берутся из .env файла
+      ConnectionStrings__PostgresDbConnection: "Host=db;Port=5432;Database=${POSTGRES_DB};Username=${POSTGRES_USER};Password=${POSTGRES_PASSWORD}"
+      AccessTokenOptions__JwtOptions__SecretKey: ${AccessTokenOptions__JwtOptions__SecretKey}
+      AccessTokenOptions__JwtOptions__ExpiresHours: ${AccessTokenOptions__JwtOptions__ExpiresHours}
+      EmailProviderOptions__Host: ${EmailProviderOptions__Host}
+      EmailProviderOptions__Port: ${EmailProviderOptions__Port}
+      EmailProviderOptions__EnableSsl: ${EmailProviderOptions__EnableSsl}
+      EmailProviderOptions__Credentials__Address: ${EmailProviderOptions__Credentials__Address}
+      EmailProviderOptions__Credentials__Password: ${EmailProviderOptions__Credentials__Password}
       PluginOptions__Directories__0: "/repo/plugins/builtin"
 
   plugins-watch:
