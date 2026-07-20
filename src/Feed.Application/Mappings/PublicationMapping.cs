@@ -15,4 +15,17 @@ internal static class PublicationMapping
             PublishedAt = item.PublishedAt,
         };
     }
+
+    public static PublicationDetails ToDetails(this Publication item)
+    {
+        return new PublicationDetails
+        {
+            Id = item.Id,
+            ExternalId = item.ExternalId,
+            Body = item.Body,
+            PublishedAt = item.PublishedAt,
+            SourceId = item.SourceId,
+            Timestamps = item.Timestamps,
+        };
+    }
 }
