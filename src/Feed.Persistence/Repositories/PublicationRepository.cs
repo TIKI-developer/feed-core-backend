@@ -9,6 +9,17 @@ namespace Feed.Persistence.Repositories;
 
 internal class PublicationRepository(FeedDbContext dbContext) : BaseRepository(dbContext), IPublicationRepository
 {
+    public async Task<Publication?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+    {
+        var publicationEntity = await _dbContext
+            .Publications
+            .Include(e => e.Timestamps)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+
+        return publicationEntity?.ToDomain();
+    }
+
     public async Task<PagedList<Publication>> GetPagedListAsync(int page, int pageSize, CancellationToken cancellationToken)
     {
         var publicationEntities = await _dbContext
