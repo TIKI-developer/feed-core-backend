@@ -1,4 +1,5 @@
-﻿using Feed.Application.UseCases.Publications.Query.GetSourceProviderList;
+﻿using Feed.Application.UseCases.Publications.Query.GetSourceList;
+using Feed.Application.UseCases.Publications.Query.GetSourceProviderList;
 using Feed.WebApi.Interfaces;
 using Feed.WebApi.Mappings;
 using Feed.WebApi.Requests;
@@ -44,6 +45,20 @@ public class SourceController
         var command = request.ToCommand();
         var result = await Mediator.Send(command, cancellationToken);
         var response = new Response<CreateSourceResponse>(result.ToResponse());
+
+        return Ok(response);
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<Response<GetSourceListQueryResult>>> Get
+    (
+        GetSourceListRequest request,
+        CancellationToken cancellationToken
+    )
+    {
+        var query = request.ToQuery();
+        var result = await Mediator.Send(query, cancellationToken);
+        var response = new Response<GetSourceListQueryResult>(result);
 
         return Ok(response);
     }
