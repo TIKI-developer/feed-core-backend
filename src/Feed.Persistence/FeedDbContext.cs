@@ -9,6 +9,7 @@ internal sealed class FeedDbContext(DbContextOptions<FeedDbContext> options) : D
     public DbSet<UserEntity> Users { get; set; }
     public DbSet<RoleEntity> Roles { get; set; }
     public DbSet<PermissionEntity> Permissions { get; set; }
+    public DbSet<PublicationEntity> Publications { get; set; }
     public DbSet<UserTokenEntity> ConfirmationTokens { get; set; }
     public DbSet<DictionaryEntity> Dictionaries { get; set; }
     public DbSet<WordEntity> Words { get; set; }
@@ -25,5 +26,6 @@ internal sealed class FeedDbContext(DbContextOptions<FeedDbContext> options) : D
         modelBuilder.ApplyConfiguration(new DictionaryWordConfiguration());
         modelBuilder.ApplyConfiguration(new UserTokenConfiguration());
         modelBuilder.ApplyConfiguration(new SourceConfiguration());
+        modelBuilder.ApplyConfiguration(new PublicationConfiguration());
     }
 }
