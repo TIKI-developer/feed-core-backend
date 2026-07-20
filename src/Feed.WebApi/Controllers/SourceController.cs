@@ -1,4 +1,5 @@
-﻿using Feed.Application.UseCases.Publications.Query.GetSourceById;
+﻿using Feed.Application.UseCases.Publications.Commands.UpdateSource;
+using Feed.Application.UseCases.Publications.Query.GetSourceById;
 using Feed.Application.UseCases.Publications.Query.GetSourceList;
 using Feed.Application.UseCases.Publications.Query.GetSourceProviderList;
 using Feed.Application.ViewModels;
@@ -75,6 +76,21 @@ public class SourceController
         var query = new GetSourceByIdQuery { Id = id };
         var result = await Mediator.Send(query, cancellationToken);
         var response = new Response<SourceDetails>(result);
+
+        return Ok(response);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<ActionResult<Response>> Update
+    (
+        Guid id,
+        UpdateSourceRequest request,
+        CancellationToken cancellationToken
+    )
+    {
+        var command = request.ToCommand(id);
+        await Mediator.Send(command, cancellationToken);
+        var response = new Response();
 
         return Ok(response);
     }
