@@ -1,5 +1,7 @@
-﻿using Feed.Application.UseCases.Publications.Query.GetSourceList;
+﻿using Feed.Application.UseCases.Publications.Query.GetSourceById;
+using Feed.Application.UseCases.Publications.Query.GetSourceList;
 using Feed.Application.UseCases.Publications.Query.GetSourceProviderList;
+using Feed.Application.ViewModels;
 using Feed.WebApi.Interfaces;
 using Feed.WebApi.Mappings;
 using Feed.WebApi.Requests;
@@ -59,6 +61,20 @@ public class SourceController
         var query = request.ToQuery();
         var result = await Mediator.Send(query, cancellationToken);
         var response = new Response<GetSourceListQueryResult>(result);
+
+        return Ok(response);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Response<SourceDetails>>> GetById
+    (
+        Guid id,
+        CancellationToken cancellationToken
+    )
+    {
+        var query = new GetSourceByIdQuery { Id = id };
+        var result = await Mediator.Send(query, cancellationToken);
+        var response = new Response<SourceDetails>(result);
 
         return Ok(response);
     }
