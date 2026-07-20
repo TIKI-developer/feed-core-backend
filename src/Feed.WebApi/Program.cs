@@ -3,9 +3,13 @@ using Feed.Application.Interfaces;
 using Feed.Email;
 using Feed.Persistence;
 using Feed.Persistence.Interfaces;
+using Feed.Plugin.Host;
 using Feed.Security;
+using Feed.WebApi.Configuration;
 using Feed.WebApi.Extensions;
 using Feed.WebApi.Services;
+
+EnvFileLoader.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +18,8 @@ builder
     .AddApplication()
     .AddPersistence(builder.Configuration)
     .AddSecurity(builder.Configuration)
-    .AddEmail(builder.Configuration);
+    .AddEmail(builder.Configuration)
+    .AddPlugins(builder.Configuration);
 
 builder
     .Services

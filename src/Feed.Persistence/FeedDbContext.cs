@@ -9,9 +9,10 @@ internal sealed class FeedDbContext(DbContextOptions<FeedDbContext> options) : D
     public DbSet<UserEntity> Users { get; set; }
     public DbSet<RoleEntity> Roles { get; set; }
     public DbSet<PermissionEntity> Permissions { get; set; }
+    public DbSet<UserTokenEntity> ConfirmationTokens { get; set; }
     public DbSet<DictionaryEntity> Dictionaries { get; set; }
     public DbSet<WordEntity> Words { get; set; }
-    public DbSet<UserTokenEntity> ConfirmationTokens { get; set; }
+    public DbSet<SourceEntity> Sources { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -23,5 +24,6 @@ internal sealed class FeedDbContext(DbContextOptions<FeedDbContext> options) : D
         modelBuilder.ApplyConfiguration(new WordConfiguration());
         modelBuilder.ApplyConfiguration(new DictionaryWordConfiguration());
         modelBuilder.ApplyConfiguration(new UserTokenConfiguration());
+        modelBuilder.ApplyConfiguration(new SourceConfiguration());
     }
 }

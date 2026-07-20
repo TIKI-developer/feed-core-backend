@@ -6,8 +6,13 @@
   <Folder Name="/Infrastructure/">
     <Project Path="src/Feed.Email/Feed.Email.csproj" Id="5d882541-2c74-4896-ac29-177cbfcdd8cb" />
     <Project Path="src/Feed.Persistence/Feed.Persistence.csproj" Id="9bec02fc-f836-46a5-a8b0-92aa8f5bbaf7" />
+    <Project Path="src/Feed.Plugin.Abstractions/Feed.Plugin.Abstractions.csproj" Id="1b731fba-2c03-43e7-a318-9acdee68c427" />
+    <Project Path="src/Feed.Plugin.Host/Feed.Plugin.Host.csproj" Id="e84deaee-ca9e-4717-84ec-2f83a33f1b92" />
     <Project Path="src/Feed.Security/Feed.Security.csproj" Id="bc290b25-804c-4650-a912-d1bcd7e7200d" />
     <Project Path="src/Feed.Shared/Feed.Shared.csproj" Id="db72dafd-64ec-47ba-a1ad-53b1410f7c4a" />
+  </Folder>
+  <Folder Name="/Plugins/">
+    <Project Path="src/Feed.Vk/Feed.Vk.csproj" />
   </Folder>
   <Folder Name="/Presentation/">
     <Project Path="src/Feed.WebApi/Feed.WebApi.csproj" Id="8725b430-f1c8-4e2c-aedf-12104b9c2c25" />
