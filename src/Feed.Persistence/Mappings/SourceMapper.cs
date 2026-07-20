@@ -17,4 +17,16 @@ internal static class SourceMapper
             Timestamps = source.Timestamps,
         };
     }
+
+    public static Source ToDomain(this SourceEntity entity)
+    {
+        return Source.Restore
+        (
+            entity.Id,
+            entity.Name,
+            entity.ExternalId,
+            entity.SourceProviderName,
+            entity.Timestamps
+        );
+    }
 }
