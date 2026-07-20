@@ -48,46 +48,47 @@ dotnet run --project src/Feed.WebApi/Feed.WebApi.csproj
 
 ### Development
 
-Запустите среду разработки:
+Запустите среду разработки с отдельным именем проекта Compose:
 
 ```bash
-docker compose --env-file dev.env -f docker/compose.dev.yml up -d --build
+docker compose -p feed-dev --env-file dev.env -f docker/compose.dev.yml up -d --build
 ```
 
 Просмотрите логи:
 
 ```bash
-docker compose --env-file dev.env -f docker/compose.dev.yml logs -f
+docker compose -p feed-dev --env-file dev.env -f docker/compose.dev.yml logs -f
 ```
 
 Остановите среду:
 
 ```bash
-docker compose --env-file dev.env -f docker/compose.dev.yml down
+docker compose -p feed-dev --env-file dev.env -f docker/compose.dev.yml down
 ```
 
 ### Production
 
-Запустите production-среду:
+Запустите production-среду с отдельным именем проекта Compose:
 
 ```bash
-docker compose --env-file prod.env -f docker/compose.prod.yml up -d --build
+docker compose -p feed-prod --env-file prod.env -f docker/compose.prod.yml up -d --build
 ```
 
 Просмотрите логи:
 
 ```bash
-docker compose --env-file prod.env -f docker/compose.prod.yml logs -f
+docker compose -p feed-prod --env-file prod.env -f docker/compose.prod.yml logs -f
 ```
 
 Остановите среду:
 
 ```bash
-docker compose --env-file prod.env -f docker/compose.prod.yml down
+docker compose -p feed-prod --env-file prod.env -f docker/compose.prod.yml down
 ```
 
 ## Примечания
 
 - Compose-файлы уже настроены на чтение переменных из [dev.env](../../dev.env) и [prod.env](../../prod.env).
+- Используйте разные имена проектов Compose, например `feed-dev` и `feed-prod`, чтобы избежать конфликтов между средами разработки и production.
 - Для production обязательно используйте сильные секреты и корректные учетные данные в [prod.env](../../prod.env).
 - Если вы меняете значения переменных окружения, перезапустите соответствующие сервисы Compose.

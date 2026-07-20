@@ -48,46 +48,47 @@ dotnet run --project src/Feed.WebApi/Feed.WebApi.csproj
 
 ### Development
 
-Start the development environment:
+Start the development environment with a dedicated Compose project name:
 
 ```bash
-docker compose --env-file dev.env -f docker/compose.dev.yml up -d --build
+docker compose -p feed-dev --env-file dev.env -f docker/compose.dev.yml up -d --build
 ```
 
 View logs:
 
 ```bash
-docker compose --env-file dev.env -f docker/compose.dev.yml logs -f
+docker compose -p feed-dev --env-file dev.env -f docker/compose.dev.yml logs -f
 ```
 
 Stop the environment:
 
 ```bash
-docker compose --env-file dev.env -f docker/compose.dev.yml down
+docker compose -p feed-dev --env-file dev.env -f docker/compose.dev.yml down
 ```
 
 ### Production
 
-Start the production environment:
+Start the production environment with a separate Compose project name:
 
 ```bash
-docker compose --env-file prod.env -f docker/compose.prod.yml up -d --build
+docker compose -p feed-prod --env-file prod.env -f docker/compose.prod.yml up -d --build
 ```
 
 View logs:
 
 ```bash
-docker compose --env-file prod.env -f docker/compose.prod.yml logs -f
+docker compose -p feed-prod --env-file prod.env -f docker/compose.prod.yml logs -f
 ```
 
 Stop the environment:
 
 ```bash
-docker compose --env-file prod.env -f docker/compose.prod.yml down
+docker compose -p feed-prod --env-file prod.env -f docker/compose.prod.yml down
 ```
 
 ## Notes
 
 - The Compose files are already configured to use environment variables from [dev.env](../../dev.env) and [prod.env](../../prod.env).
+- Use distinct Compose project names such as `feed-dev` and `feed-prod` to avoid conflicts between development and production resources.
 - For production, make sure to provide strong secrets and valid credentials in [prod.env](../../prod.env).
 - If you change the environment values, restart the relevant Compose services.
