@@ -142,4 +142,4 @@ _NCrunch*
 #**/.env
 #**/.env.*
 
-!**/.example.env
+!**/example.env

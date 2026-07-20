@@ -23,18 +23,20 @@ Feed — это backend-платформа для агрегирования к�
 - [docker/compose.dev.yml](../../docker/compose.dev.yml)
 - [docker/compose.prod.yml](../../docker/compose.prod.yml)
 
-Редактировать их вручную не нужно. Они используют переменные окружения из файла [.env](../../.env), который находится в корне репозитория.
+Редактировать их вручную не нужно. Они используют переменные окружения из отдельных файлов в корне проекта:
+- [dev.env](../../dev.env) для разработки
+- [prod.env](../../prod.env) для production
 
 Чтобы настроить окружение:
-1. Скопируйте [docker/.example.env](../../docker/.example.env) в [.env](../../.env).
-2. Откройте [.env](../../.env) и заполните необходимые значения и секреты.
+1. Скопируйте [docker/example.env](../../docker/example.env) в [dev.env](../../dev.env) и [prod.env](../../prod.env).
+2. Откройте нужный файл и заполните необходимые значения и секреты.
 3. Не меняйте названия переменных, только их значения.
 
-> Один и тот же файл [.env](../../.env) используется как для разработки, так и для production.
+> Для разработки используйте dev.env, для production — prod.env.
 
 ## 2. Запуск локально на хост-машине
 
-Если вы хотите запускать API напрямую на своей машине, убедитесь, что PostgreSQL доступен, и перед запуском загрузите переменные из [.env](../../.env) в оболочку.
+Если вы хотите запускать API напрямую на своей машине, убедитесь, что PostgreSQL доступен, и перед запуском загрузите переменные из подходящего env-файла в оболочку.
 
 Пример:
 
@@ -49,19 +51,19 @@ dotnet run --project src/Feed.WebApi/Feed.WebApi.csproj
 Запустите среду разработки:
 
 ```bash
-docker compose --env-file .env -f docker/compose.dev.yml up -d --build
+docker compose --env-file dev.env -f docker/compose.dev.yml up -d --build
 ```
 
 Просмотрите логи:
 
 ```bash
-docker compose --env-file .env -f docker/compose.dev.yml logs -f
+docker compose --env-file dev.env -f docker/compose.dev.yml logs -f
 ```
 
 Остановите среду:
 
 ```bash
-docker compose --env-file .env -f docker/compose.dev.yml down
+docker compose --env-file dev.env -f docker/compose.dev.yml down
 ```
 
 ### Production
@@ -69,23 +71,23 @@ docker compose --env-file .env -f docker/compose.dev.yml down
 Запустите production-среду:
 
 ```bash
-docker compose --env-file .env -f docker/compose.prod.yml up -d --build
+docker compose --env-file prod.env -f docker/compose.prod.yml up -d --build
 ```
 
 Просмотрите логи:
 
 ```bash
-docker compose --env-file .env -f docker/compose.prod.yml logs -f
+docker compose --env-file prod.env -f docker/compose.prod.yml logs -f
 ```
 
 Остановите среду:
 
 ```bash
-docker compose --env-file .env -f docker/compose.prod.yml down
+docker compose --env-file prod.env -f docker/compose.prod.yml down
 ```
 
 ## Примечания
 
-- Compose-файлы уже настроены на чтение переменных из [.env](../../.env).
-- Для production обязательно используйте сильные секреты и корректные учетные данные в [.env](../../.env).
+- Compose-файлы уже настроены на чтение переменных из [dev.env](../../dev.env) и [prod.env](../../prod.env).
+- Для production обязательно используйте сильные секреты и корректные учетные данные в [prod.env](../../prod.env).
 - Если вы меняете значения переменных окружения, перезапустите соответствующие сервисы Compose.

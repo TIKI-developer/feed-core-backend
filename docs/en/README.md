@@ -23,18 +23,20 @@ The repository already contains ready-to-use Compose files:
 - [docker/compose.dev.yml](../../docker/compose.dev.yml)
 - [docker/compose.prod.yml](../../docker/compose.prod.yml)
 
-You do not need to edit these files manually. They read configuration from environment variables provided through a [.env](../../.env) file located in the repository root.
+You do not need to edit these files manually. They read configuration from environment variables provided through separate env files at the project root:
+- [dev.env](../../dev.env) for development
+- [prod.env](../../prod.env) for production
 
 To configure the environment:
-1. Copy [docker/.example.env](../../docker/.example.env) to [.env](../../.env).
-2. Open [.env](../../.env) and fill in the required values and secrets.
+1. Copy [docker/example.env](../../docker/example.env) to [dev.env](../../dev.env) and [prod.env](../../prod.env).
+2. Open the target env file and fill in the required values and secrets.
 3. Keep the variable names unchanged.
 
-> The same environment file is used for both development and production runs.
+> Use the dev file for development runs and the prod file for production runs.
 
 ## 2. Run locally on the host machine
 
-If you want to run the API directly on your machine, make sure PostgreSQL is available and load the variables from [.env](../../.env) into your shell before starting the application.
+If you want to run the API directly on your machine, make sure PostgreSQL is available and load the variables from the appropriate env file into your shell before starting the application.
 
 Example:
 
@@ -49,19 +51,19 @@ dotnet run --project src/Feed.WebApi/Feed.WebApi.csproj
 Start the development environment:
 
 ```bash
-docker compose --env-file .env -f docker/compose.dev.yml up -d --build
+docker compose --env-file dev.env -f docker/compose.dev.yml up -d --build
 ```
 
 View logs:
 
 ```bash
-docker compose --env-file .env -f docker/compose.dev.yml logs -f
+docker compose --env-file dev.env -f docker/compose.dev.yml logs -f
 ```
 
 Stop the environment:
 
 ```bash
-docker compose --env-file .env -f docker/compose.dev.yml down
+docker compose --env-file dev.env -f docker/compose.dev.yml down
 ```
 
 ### Production
@@ -69,23 +71,23 @@ docker compose --env-file .env -f docker/compose.dev.yml down
 Start the production environment:
 
 ```bash
-docker compose --env-file .env -f docker/compose.prod.yml up -d --build
+docker compose --env-file prod.env -f docker/compose.prod.yml up -d --build
 ```
 
 View logs:
 
 ```bash
-docker compose --env-file .env -f docker/compose.prod.yml logs -f
+docker compose --env-file prod.env -f docker/compose.prod.yml logs -f
 ```
 
 Stop the environment:
 
 ```bash
-docker compose --env-file .env -f docker/compose.prod.yml down
+docker compose --env-file prod.env -f docker/compose.prod.yml down
 ```
 
 ## Notes
 
-- The Compose files are already configured to use environment variables from [.env](../../.env).
-- For production, make sure to provide strong secrets and valid credentials in [.env](../../.env).
+- The Compose files are already configured to use environment variables from [dev.env](../../dev.env) and [prod.env](../../prod.env).
+- For production, make sure to provide strong secrets and valid credentials in [prod.env](../../prod.env).
 - If you change the environment values, restart the relevant Compose services.
