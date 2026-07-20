@@ -5,8 +5,11 @@ using Feed.Persistence;
 using Feed.Persistence.Interfaces;
 using Feed.Plugin.Host;
 using Feed.Security;
+using Feed.WebApi.Configuration;
 using Feed.WebApi.Extensions;
 using Feed.WebApi.Services;
+
+EnvFileLoader.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
