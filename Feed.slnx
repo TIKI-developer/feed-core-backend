@@ -12,6 +12,7 @@
     <Project Path="src/Feed.Shared/Feed.Shared.csproj" Id="db72dafd-64ec-47ba-a1ad-53b1410f7c4a" />
   </Folder>
   <Folder Name="/Plugins/">
+    <Project Path="src/Feed.Telegram/Feed.Telegram.csproj" Id="9d493704-30b3-47cf-a45a-120f266f7a76" />
     <Project Path="src/Feed.Vk/Feed.Vk.csproj" />
   </Folder>
   <Folder Name="/Presentation/">

@@ -41,6 +41,10 @@ services:
       - /repo/src/Feed.Plugin.Abstractions/bin
       - /repo/src/Feed.Plugin.Host/obj
       - /repo/src/Feed.Plugin.Host/bin
+      - /repo/src/Feed.Vk/obj
+      - /repo/src/Feed.Vk/bin
+      - /repo/src/Feed.Telegram/obj
+      - /repo/src/Feed.Telegram/bin
     depends_on:
       - db
       - plugins-watch

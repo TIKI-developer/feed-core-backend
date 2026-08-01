@@ -1,5 +1,6 @@
 ﻿using Feed.Application.ViewModels;
 using Feed.Domain.Publications.Entities;
+using Feed.Plugin.Abstractions;
 
 namespace Feed.Application.Mappings;
 

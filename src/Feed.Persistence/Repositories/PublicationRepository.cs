@@ -9,6 +9,13 @@ namespace Feed.Persistence.Repositories;
 
 internal class PublicationRepository(FeedDbContext dbContext) : BaseRepository(dbContext), IPublicationRepository
 {
+    public async Task AddAsync(Publication publication, CancellationToken cancellationToken)
+    {
+        var publicationEntity = publication.ToEntity();
+
+        await _dbContext.Publications.AddAsync(publicationEntity, cancellationToken);
+    }
+
     public async Task<Publication?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         var publicationEntity = await _dbContext

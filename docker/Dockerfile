@@ -23,6 +23,7 @@ COPY ["src/Feed.Plugin.Abstractions/Feed.Plugin.Abstractions.csproj", "src/Feed.
 COPY ["src/Feed.Plugin.Host/Feed.Plugin.Host.csproj", "src/Feed.Plugin.Host/"]
 # Встроенные (builtin) плагины:
 COPY ["src/Feed.Vk/Feed.Vk.csproj", "src/Feed.Vk/"]
+COPY ["src/Feed.Telegram/Feed.Telegram.csproj", "src/Feed.Telegram/"]
 
 # Восстанавливаем зависимости всего решения
 RUN dotnet restore "Feed.slnx"
@@ -48,6 +49,12 @@ RUN dotnet publish "src/Feed.Vk/Feed.Vk.csproj" \
     -c $BUILD_CONFIGURATION \
     --no-restore \
     -o /app/plugins/builtin/Feed.Vk \
+    /p:UseAppHost=false
+
+RUN dotnet publish "src/Feed.Telegram/Feed.Telegram.csproj" \
+    -c $BUILD_CONFIGURATION \
+    --no-restore \
+    -o /app/plugins/builtin/Feed.Telegram \
     /p:UseAppHost=false
 
 # При добавлении нового плагина добавь ещё один RUN, например:
@@ -87,6 +94,7 @@ COPY ["src/Feed.Email/Feed.Email.csproj", "src/Feed.Email/"]
 COPY ["src/Feed.Plugin.Abstractions/Feed.Plugin.Abstractions.csproj", "src/Feed.Plugin.Abstractions/"]
 COPY ["src/Feed.Plugin.Host/Feed.Plugin.Host.csproj", "src/Feed.Plugin.Host/"]
 COPY ["src/Feed.Vk/Feed.Vk.csproj", "src/Feed.Vk/"]
+COPY ["src/Feed.Telegram/Feed.Telegram.csproj", "src/Feed.Telegram/"]
 
 RUN dotnet restore "src/Feed.WebApi/Feed.WebApi.csproj"
 
@@ -106,13 +114,15 @@ WORKDIR /repo
 COPY ["Feed.slnx", "."]
 COPY ["src/Feed.Plugin.Abstractions/Feed.Plugin.Abstractions.csproj", "src/Feed.Plugin.Abstractions/"]
 COPY ["src/Feed.Vk/Feed.Vk.csproj", "src/Feed.Vk/"]
+COPY ["src/Feed.Telegram/Feed.Telegram.csproj", "src/Feed.Telegram/"]
 
 RUN dotnet restore "src/Feed.Vk/Feed.Vk.csproj"
+RUN dotnet restore "src/Feed.Telegram/Feed.Telegram.csproj"
 
 VOLUME ["/repo/src"]
 
 # Список builtin-плагинов, которые нужно пересобирать в dev
-ENV PLUGIN_PROJECTS="Feed.Vk"
+ENV PLUGIN_PROJECTS="Feed.Vk Feed.Telegram"
 
 # Запускаем отдельный dotnet watch build для каждого плагина
 CMD sh -c 'for name in $PLUGIN_PROJECTS; do \

@@ -17,4 +17,17 @@ internal static class PublicationMapping
                 entity.Timestamps
             );
     }
+
+    public static PublicationEntity ToEntity(this Publication publication)
+    {
+        return new PublicationEntity
+        {
+            Id = publication.Id,
+            Body = publication.Body,
+            ExternalId = publication.ExternalId,
+            PublishedAt = publication.PublishedAt,
+            SourceId = publication.SourceId,
+            Timestamps = publication.Timestamps
+        };
+    }
 }

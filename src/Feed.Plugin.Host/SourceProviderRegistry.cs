@@ -9,9 +9,11 @@ internal sealed class SourceProviderRegistry : ISourceProviderRegistry
     private readonly IReadOnlyCollection<ISourceProvider> _providers;
     private readonly IReadOnlyDictionary<string, ISourceProvider> _lookup;
 
-    public SourceProviderRegistry(PluginLoader pluginLoader, ILogger<SourceProviderRegistry> logger)
+    public SourceProviderRegistry(
+        IEnumerable<ISourceProvider> providers,
+        ILogger<SourceProviderRegistry> logger)
     {
-        _providers = [.. pluginLoader.Load()];
+        _providers = providers.ToArray();
 
         var lookup = new Dictionary<string, ISourceProvider>(StringComparer.OrdinalIgnoreCase);
 
@@ -36,7 +38,5 @@ internal sealed class SourceProviderRegistry : ISourceProviderRegistry
     }
 
     public IReadOnlyCollection<ISourceProvider> GetAll()
-    {
-        return _providers;
-    }
+        => _providers;
 }

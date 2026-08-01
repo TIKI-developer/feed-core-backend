@@ -1,36 +1,33 @@
 ﻿using Feed.Plugin.Abstractions;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 namespace Feed.Plugin.Host;
 
-internal sealed class PluginLoader(IOptions<PluginOptions> options, ILogger<PluginLoader> logger)
+internal static class PluginLoader
 {
-    public IReadOnlyCollection<ISourceProvider> Load()
+    public static void ConfigureServices(
+        IServiceCollection services,
+        IConfiguration configuration,
+        PluginOptions options)
     {
-        var providers = new List<ISourceProvider>();
+        ArgumentNullException.ThrowIfNull(services);
+        ArgumentNullException.ThrowIfNull(options);
 
-        foreach (var directory in options.Value.Directories)
+        foreach (var directory in options.Directories)
         {
-            LoadDirectory(directory, providers);
+            ConfigureDirectory(services, configuration, directory);
         }
-
-        logger.LogInformation("Loaded {Count} source provider(s) from {DirectoryCount} directory(ies)",
-            providers.Count, options.Value.Directories.Count);
-
-        return providers;
     }
 
-    private void LoadDirectory(
-        string root,
-        ICollection<ISourceProvider> providers)
+    private static void ConfigureDirectory(
+        IServiceCollection services,
+        IConfiguration configuration,
+        string root)
     {
         if (!Directory.Exists(root))
-        {
-            logger.LogWarning("Plugin directory {Root} does not exist, skipping", root);
             return;
-        }
 
         foreach (var pluginDirectory in Directory.EnumerateDirectories(root))
         {
@@ -38,12 +35,7 @@ internal sealed class PluginLoader(IOptions<PluginOptions> options, ILogger<Plug
             var dll = Path.Combine(pluginDirectory, $"{pluginName}.dll");
 
             if (!File.Exists(dll))
-            {
-                logger.LogWarning(
-                    "Expected {Dll} for plugin {PluginName}, but the file was not found. Skipping",
-                    dll, pluginName);
                 continue;
-            }
 
             Assembly assembly;
 
@@ -52,35 +44,33 @@ internal sealed class PluginLoader(IOptions<PluginOptions> options, ILogger<Plug
                 var loadContext = new PluginLoadContext(dll);
                 assembly = loadContext.LoadFromAssemblyPath(Path.GetFullPath(dll));
             }
-            catch (Exception ex)
+            catch
             {
-                logger.LogError(ex, "Failed to load assembly for plugin {PluginName} from {Dll}", pluginName, dll);
+                // Можно накопить ошибки и вывести позже,
+                // либо просто пропустить плагин.
                 continue;
             }
 
-            foreach (var type in assembly.GetTypes())
-            {
-                if (type.IsInterface || type.IsAbstract)
-                    continue;
+            ConfigureAssembly(services, configuration, assembly);
+        }
+    }
 
-                if (!typeof(ISourceProvider).IsAssignableFrom(type))
-                    continue;
+    private static void ConfigureAssembly(
+        IServiceCollection services,
+        IConfiguration configuration,
+        Assembly assembly)
+    {
+        foreach (var type in assembly.GetExportedTypes())
+        {
+            if (type.IsAbstract || type.IsInterface)
+                continue;
 
-                try
-                {
-                    if (Activator.CreateInstance(type) is ISourceProvider provider)
-                    {
-                        providers.Add(provider);
-                        logger.LogInformation("Loaded source provider {ProviderName} ({Type}) from {PluginName}",
-                            provider.Name, type.FullName, pluginName);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    logger.LogError(ex, "Failed to instantiate {Type} from plugin {PluginName}",
-                        type.FullName, pluginName);
-                }
-            }
+            if (!typeof(IPlugin).IsAssignableFrom(type))
+                continue;
+
+            var plugin = (IPlugin)Activator.CreateInstance(type)!;
+
+            plugin.ConfigureServices(services, configuration);
         }
     }
 }
